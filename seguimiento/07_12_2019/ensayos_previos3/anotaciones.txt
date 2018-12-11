@@ -1,0 +1,123 @@
+
+
+
+Case: dic10 -- sesion: sesion1
+
+HTTP
+Post: 0
+Get: 2
+
+
+DNS 
+res: 1
+
+
+Date	                  Host	                           CName	                  IP	         Info
+2004-05-13 05:17:10	pagead2.googlesyndication.com	pagead2.google.com	216.239.59.104	info.xml
+
+
+WEB -SITE
+
+Date	Url	
+Size	Method	Info
+2004-05-13 05:17:10	
+pagead2.googlesyndication.com/pagead/ads?client=ca-pub-2309191948673629&random=1084443430285&lmt=1082467020&format=468x60_as&output=html&url=http%3A%2F%2Fwww.ethereal.com%2Fdownload.html&color_bg=FFFFFF&color_text=333333&color_link=000000&color_url=666633&color_border=666633	
+1272	GET	info.xml
+
+2004-05-13 05:17:08	www.ethereal.com/download.html	
+18070	GET	info.xml
+
+
+--- Decoding info: stream 0 ---
+udp
+udp.srcport 3009
+udp.dstport 53
+
+ip
+ip.proto 17
+ip.src 145.254.160.237
+ip.dst 145.253.2.203
+ip.offset 14
+
+eth
+eth.src 00:00:01:00:00:00
+eth.type 2048
+
+pol
+pol.layer1 1
+pol.count 13
+pol.offset 6879
+pol.file /opt/xplico/pol_1/sol_1/decode/http.cap
+pol.sesid 1
+pol.polid 1
+
+
+
+
+capanalysis:
+
+sudo /etc/init.d/capanalysis restart
+
+
+httptraza
+
+
+
+¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡
+
+Flows
+
+Date	         Time	         Source IP	Destination IP	Destination Name  Source Port   Destination Port	
+2004-05-13 	05:17:09 	145.254.160.237 	145.253.2.203 	 	         3009 	     53
+2004-05-13 	05:17:07 	145.254.160.237 	65.208.228.223 	 	          3372 	     80 
+
+L4	Protocol	Country	Bytes Sent	Bytes Received	
+ESP 	DNS 	DE 	47 	         146 
+TCP 	HTTP 	US 	479 	         17.9 K 
+
+Packets Sent	Packets Received	Duration
+1 	         1                 1 
+1 	         14                30
+
+
+Para reciclar:
+https://docs.google.com/document/d/14WxmqB0GMlIIGB8os6of6bS5b5sKAwZmZlkTqkm25dw/edit
+https://docs.google.com/document/d/1kxNEilMTl5AGKNEJtA1oUs-aHmujHVmhl5ZHGie7e-k/edit
+https://docs.google.com/document/d/1UdIjGq7CeSLClLecG1NdlQfpVmXz2e-HE1U6zQ00pD8/edit
+
+
+
+Otros test:
+https://drive.google.com/drive/u/0/folders/1Uc_MgdzZHiZ9dnuX3WkMk8def17YqsZ2?ogsrc=32
+
+-----
+
+Evaluacion usando :
+https://docs.google.com/document/d/1YImH4xNbjH8C2sYXiKs18u0IDBBXxnAAEffHLnZXnck/edit
+
+ capanalysis -->
+URL: http://localhost:9877
+
+http://www.capanalysis.net/ca/
+
+
+xplico -->
+
+
+Para login:
+the default user is xplico and the password is xplico.
+User administrator: admin → xplico
+
+
+
+Por hacer1.
+1. Analisis trafico normal.
+2. Prueba sencilla 
+3. Mirar como sacar filtros para wirewhark que sean utiles para las mediciones que tenemos en la cabeza.
+
+
+----
+SynFlood Sample.pcap bajado de https://www.cloudshark.org/captures/ba85949942a0
+https://github.com/somethingnew2-0/CS642-HW2/blob/master/traces/synflood.pcap -- https://github.com/somethingnew2-0/CS642-HW2/tree/master/traces
+
+
