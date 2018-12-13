@@ -1,0 +1,101 @@
+ Graph and Compare Throughput of Two Conversations
+
+
+
+n this lab you will open a trace file that contains the traffic to and from two hosts. One host
+complains of slow download speeds from a site while the other host does not.
+Step 1:
+
+
+Statistics | Conversations
+--> Hay 2 conversaciones IP (flujos)
+
+
+
+Graph and Compare Traffic for Two Applications
+In this lab exercise you will open a trace file that contains FTP and HTTP traffic. You will graph the
+FTP traffic (including both FTP commands and data transfer) and the HTTP traffic based on the TCP
+port numbers in use.
+
+tr-ftphttp
+
+Statistics | Conversations | TCP
+Hay 96 conversaciones TCP
+Interesa ver los puertos en uso: to view the port numbers in use
+in these TCP conversations. This provides a list of all HTTP and FTP port numbers in use.
+El puerto 80 es usado para http y el 21 para ftp Port 22487 is used
+for the FTP data channel.
+
+tcp.port==80  (line style)
+tcp.port==21 or tcp.port==22487 (Impulse style)
+
+Tip:
+When graphing two disparate numbers, set the Y Axis Scale to logarithmic to view the smaller
+numbers alongside the larger numbers.
+
+---- 
+
+Use Calc Functions on the Advanced IO
+Graph
+
+1. Use Calc: SUM(*) to add the contents of a numerical field, such as tcp.len, which does not
+exist in a packet, but is Wireshark's field to count just data bytes in packets.
+2. Use Calc: COUNT FRAMES(*) to count the occurrence of specific type of frame or Expert Infos
+item such as tcp.analysis.retransmission.
+3. Use Calc: COUNT FIELDS(*) to count the occurrence of a field, such as the IP ID (ip.id)
+field which occurs twice in some ICMP packets.
+4. Use Calc: MIN(*), AVG(*) and MAX(*) to graph the minimum, average and maximum value of
+a numerical field, such as the tcp.window_size field.
+5. Use Calc: LOAD(*) to graph response time fields, such as smb.time.
+
+Ejemplo
+
+Graphing the TCP Payload Throughput with an Advanced IO Graph
+There is no field in a packet called tcp.len, but Wireshark uses this value to define the number of
+data bytes in each TCP segment. We will use tcp.len to graph the throughput level of the payload
+only (no header values will be counted in our calculation)
+
+tr-twohosts.pcapng. que his trace file depicts two hosts downloading files, 192.168.1.72 and 192.168.1.119.
+
+
+Statistics | IO Graph and choose Advanced… 
+
+Filter: ip.dst==192.168.1.72 
+Calc: SUM(*) 
+      tcp.len  (no apareció esta medida).
+
+
+No me dio.
+
+*****************************************************************************************************
+Graph Throughput Problems
+
+
+ow we will take a look at graphing throughput issues, including throttled traffic, traffic held in
+queues, and the "Golden Graph."
+The Golden Graph plots TCP problems along side general throughput to look for a correlation
+between drops in throughput and increases in TCP problems. A lack of correlation indicates that the
+problem is not due to TCP issues such as packet loss or Zero Window conditions.
+You will likely already know the cause of performance problems before moving to the graphing
+stage. The graphs are a good way to explain what is creating performance issues.
+
+1. Detect Consistently Low Throughput due to Low Packet Sizes
+
+
+Transferring files using small packet sizes is like going to the store to buy a dozen eggs and bringing
+them home one egg at a time. It will take too long.
+Low packet sizes may be caused by an application that intentionally wants to transfer smaller amounts
+of data. Low packet sizes can also be an indication of a low Maximum Segment Size (MSS) setting.
+A low MSS may be due to a misconfiguration at the client or even additional functionality (such as a
+VLAN driver loaded).
+
+Example:
+Graph Low Throughput Due to Itty Bitty Stinkin' Packets
+This trace file consists of an HTTPS connection between hosts. Since we do not have the key to
+decrypt the traffic, we can only analyze up to the point of the TCP layer.
+
+
+
+
+
+

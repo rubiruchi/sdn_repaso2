@@ -1,0 +1,12 @@
+time since previous frame --> aply as column
+
+Preguntas y respuestas:
+1. Is 192 ms a good or bad round trip time? The answer depends on what is normal round trip time for
+that path. If the round trip time is usually 43 ms, this is a large round trip time.
+What can you do about large round trip times? If the delay is incurred within your network
+infrastructure, perhaps there is a reason. For example, a firewall with an exorbitant number of rules
+can affect network response times. If the delay is incurred outside your network infrastructure (such
+as along a path through the Internet), there is not much you can do.
+In this same trace file we can also look at the time from the DNS request to the DNS response to
+determine the DNS response time (302 ms), however Wireshark has as DNS response time field
+(dns.time). --> Establecer un tiempo de respuesta.
