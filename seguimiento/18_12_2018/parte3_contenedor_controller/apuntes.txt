@@ -1,0 +1,76 @@
+https://www.southampton.ac.uk/~drn1e09/ofertie/openvswitch_useful_commands.txt
+
+sudo ovs-vsctl list-br 
+s1
+s2
+
+sudo ovs-vsctl show
+9ec06414-9bd9-4579-81d4-8e7801c2eb61
+    Bridge "s1"
+        Controller "tcp:172.17.0.10:6653"
+        fail_mode: secure
+        Port "s1-eth2"
+            Interface "s1-eth2"
+        Port "s1-eth4"
+            Interface "s1-eth4"
+        Port "s1"
+            Interface "s1"
+                type: internal
+        Port "s1-eth1"
+            Interface "s1-eth1"
+        Port "s1-eth3"
+            Interface "s1-eth3"
+    Bridge "s2"
+        Controller "tcp:172.17.0.10:6653"
+        fail_mode: secure
+        Port "s2"
+            Interface "s2"
+                type: internal
+        Port "s2-eth2"
+            Interface "s2-eth2"
+        Port "s2-eth4"
+            Interface "s2-eth4"
+        Port "s2-eth1"
+            Interface "s2-eth1"
+        Port "s2-eth3"
+            Interface "s2-eth3"
+    ovs_version: "2.5.5"
+
+
+sudo ovs-vsctl get-controller s1
+tcp:172.17.0.10:6653
+
+sudo ovs-vsctl get-controller s2
+tcp:172.17.0.10:6653
+
+
+
+docker exec [OPTIONS] CONTAINER COMMAND [ARG...]
+
+docker run --name ubuntu_bash --rm -i -t ubuntu bash
+docker exec -it ubuntu_bash bash
+
+Para nuestro caso:
+
+-----------------------------------------------
+
+**************************************************************************************************
+https://hub.docker.com/r/hsrnetwork/ryu/
+
+
+sudo docker run -h c0 --name c0 -p 6633:6633 -it --rm sonatanfv/sonata-ryu-vnf /bin/bash
+cd ryu
+ryu-manager --ofp-tcp-listen-port 6633 ryu/app/simple_switch_13.py
+
+
+
+sudo mn --mac --controller remote,ip=127.0.0.1
+mininet> 
+
+Aqui si dio.
+
+****************************************************************************************************
+
+http://www.unsam.edu.ar/cidi/actividad-7-01-open-vswitch-en-gns3/
+https://blog.cyberreboot.org/building-a-software-defined-network-with-raspberry-pis-and-a-zodiac-fx-switch-97184032cdc1
+

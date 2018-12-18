@@ -1,0 +1,76 @@
+https://www.southampton.ac.uk/~drn1e09/ofertie/openvswitch_useful_commands.txt
+http://www.unsam.edu.ar/cidi/actividad-7-01-open-vswitch-en-gns3/
+https://blog.cyberreboot.org/building-a-software-defined-network-with-raspberry-pis-and-a-zodiac-fx-switch-97184032cdc1
+
+sudo ovs-vsctl list-br 
+sudo ovs-vsctl show
+sudo ovs-vsctl get-controller s1
+sudo ovs-vsctl get-controller s2
+
+
+
+docker exec [OPTIONS] CONTAINER COMMAND [ARG...]
+
+docker run --name ubuntu_bash --rm -i -t ubuntu bash
+docker exec -it ubuntu_bash bash
+
+**************************************************************************************************
+
+Para nuestro caso:
+
+sudo docker run -h c0 --name c0 -p 6633:6633 -it --rm sonatanfv/sonata-ryu-vnf /bin/bash
+cd ryu
+ryu-manager --ofp-tcp-listen-port 6633 ryu/app/simple_switch_13.py
+
+
+sudo python topo_test.py
+
+
+Aqui si dio.
+
+****************************************************************************************************
+
+http://www.unsam.edu.ar/cidi/actividad-7-01-open-vswitch-en-gns3/
+https://blog.cyberreboot.org/building-a-software-defined-network-with-raspberry-pis-and-a-zodiac-fx-switch-97184032cdc1
+
+ENLACES QUE PUEDEN SER UTILES:
+https://github.com/tigarto/test-diarios/tree/master/junio/junio_06/test1
+https://github.com/vegasbrianc/prometheus
+
+
+--------------------------------------------------------------------------
+
+sudo docker-compose up
+https://www.neteye-blog.com/2018/04/how-to-monitor-docker-containers-using-cadvisor-part-1/
+https://www.neteye-blog.com/2018/05/how-to-monitor-docker-containers-using-cadvisor-part-2/
+
+https://github.com/google/cadvisor/tree/master/docs
+https://github.com/google/cadvisor/blob/master/docs/storage/prometheus.md
+
+https://blog.couchbase.com/monitoring-docker-containers-docker-stats-cadvisor-universal-control-plane/
+
+
+Docker Universal Control Plane (DUCP
+Sysdig Cloud
+Docker-Scout
+Data Dog
+Ruxit
+NewRelic
+Logentries
+
+https://docs.docker.com/v1.8/engine/articles/runmetrics/
+http://blog.scoutapp.com/articles/2015/03/16/monitoring-docker
+https://docs.logentries.com/docs/docker-logentries-container/
+
+https://blog.codeship.com/monitoring-docker-containers/
+
+
+https://axibase.com/use-cases/integrations/cadvisor/
+https://vocon-it.com/2016/11/02/how-to-set-up-docker-monitoring-via-cadvisor-influxdb-and-grafana/
+https://axibase.com/products/axibase-time-series-database/writing-data/docker-cadvisor/
+https://medium.com/@soumyadipde/monitoring-in-docker-stacks-its-that-easy-with-prometheus-5d71c1042443
+https://github.com/stefanprodan/swarmprom
+https://blog.iron.io/right-sizing-with-docker-stats-and-cadvisor/
+
+
+
