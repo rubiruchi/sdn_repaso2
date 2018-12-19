@@ -135,7 +135,11 @@ tigarto@fuck-pc:~/dockerstats/example$ cat output.txt
 2018-12-19 16:04:12.60576884 -0500 -05 m=+15.654323453: Container=8774ae727f68 Memory={Raw=2.07MiB / 7.689GiB Percent=0.03%} CPU=0.03% IO={Network=18.1kB / 0B Block=7.18MB / 0B} PIDs=1
 2018-12-19 16:04:14.612790194 -0500 -05 m=+17.661344947: Container=8774ae727f68 Memory={Raw=2.07MiB / 7.689GiB Percent=0.03%} CPU=0.00% IO={Network=18.1kB / 0B Block=7.18MB / 0B} PIDs=1
 ```
+## Monitoreo de estadisticas de contenedores API mediante Go ##
 
+1. https://medium.com/devopslinks/monitoring-docker-with-python-domonit-34440b8c6830
+2. https://github.com/docker/docker-py
+3. https://github.com/docker/docker-py/issues/1546
 
 ## Obtener las estadisticas de los contenedores mediante APIs ##
 
