@@ -71,6 +71,72 @@ sudo service docker restart
      curl http://localhost:2376/containers/b91f79693dbf/stats
    ```
 
+## Monitoreo de estadisticas de contenedores API mediante Go ##
+Esta herramienta es desarrollada por **KyleBanks** y se encuentra displonible en el siguiente [enlace de github](https://github.com/KyleBanks/dockerstats). Para tratarla de poner en marcha se hizo lo siguiente:
+
+1. Se instalo el paquete desde github?
+
+```
+go get -v github.com/KyleBanks/dockerstats
+```
+
+2. Se procedio a correr el ejemplo tal y como se sugiere en la pagina:
+
+```
+cd example
+go run main.go "output.txt"
+```
+
+La salida para el caso fue la siguiente:
+
+```
+2018/12/19 15:51:33 Writing output to 'output.txt'
+panic: nil
+
+goroutine 1 [running]:
+panic(0x0, 0x0)
+	/usr/lib/go/src/runtime/panic.go:481 +0x3e6
+main.main()
+	/home/tigarto/dockerstats/example/main.go:34 +0x2c8
+exit status 2
+tigarto@fuck-pc:~/dockerstats/example$ 88
+88: command not found
+
+```
+
+Al parecer el problema anterior era por la version del go. Por lo cual se procedio a actualizarla siguiendo el siguiente [enlace](https://github.com/golang/go/wiki/Ubuntu):
+
+```bash
+sudo add-apt-repository ppa:longsleep/golang-backports
+sudo apt-get update
+sudo apt-get install golang-go
+```
+
+Luego se volvio a probar el programa ejemplo ```sudo go run main.go "output.txt"``` empleandose ```Ctrl + C``` para salir tal y como se muestra a continuación:
+
+```bash
+tigarto@fuck-pc:~/dockerstats/example$ sudo go run main.go "output.txt"
+2018/12/19 16:03:56 Writing output to 'output.txt'
+
+^Csignal: interrupt
+```
+
+Finalmente se observa la salida del archivo **output.txt** la cual es la siguiente:
+
+```bash
+tigarto@fuck-pc:~/dockerstats/example$ cat output.txt 
+2018-12-19 16:03:58.559649616 -0500 -05 m=+1.608204328: Container=8774ae727f68 Memory={Raw=2.07MiB / 7.689GiB Percent=0.03%} CPU=0.00% IO={Network=18.1kB / 0B Block=7.18MB / 0B} PIDs=1
+2018-12-19 16:04:00.564749468 -0500 -05 m=+3.613304156: Container=8774ae727f68 Memory={Raw=2.07MiB / 7.689GiB Percent=0.03%} CPU=0.00% IO={Network=18.1kB / 0B Block=7.18MB / 0B} PIDs=1
+2018-12-19 16:04:02.572251763 -0500 -05 m=+5.620806526: Container=8774ae727f68 Memory={Raw=2.07MiB / 7.689GiB Percent=0.03%} CPU=0.00% IO={Network=18.1kB / 0B Block=7.18MB / 0B} PIDs=1
+2018-12-19 16:04:04.578296881 -0500 -05 m=+7.626851621: Container=8774ae727f68 Memory={Raw=2.07MiB / 7.689GiB Percent=0.03%} CPU=0.00% IO={Network=18.1kB / 0B Block=7.18MB / 0B} PIDs=1
+2018-12-19 16:04:06.58629403 -0500 -05 m=+9.634848838: Container=8774ae727f68 Memory={Raw=2.07MiB / 7.689GiB Percent=0.03%} CPU=0.00% IO={Network=18.1kB / 0B Block=7.18MB / 0B} PIDs=1
+2018-12-19 16:04:08.593388684 -0500 -05 m=+11.641943299: Container=8774ae727f68 Memory={Raw=2.07MiB / 7.689GiB Percent=0.03%} CPU=0.00% IO={Network=18.1kB / 0B Block=7.18MB / 0B} PIDs=1
+2018-12-19 16:04:10.600496022 -0500 -05 m=+13.649050795: Container=8774ae727f68 Memory={Raw=2.07MiB / 7.689GiB Percent=0.03%} CPU=0.00% IO={Network=18.1kB / 0B Block=7.18MB / 0B} PIDs=1
+2018-12-19 16:04:12.60576884 -0500 -05 m=+15.654323453: Container=8774ae727f68 Memory={Raw=2.07MiB / 7.689GiB Percent=0.03%} CPU=0.03% IO={Network=18.1kB / 0B Block=7.18MB / 0B} PIDs=1
+2018-12-19 16:04:14.612790194 -0500 -05 m=+17.661344947: Container=8774ae727f68 Memory={Raw=2.07MiB / 7.689GiB Percent=0.03%} CPU=0.00% IO={Network=18.1kB / 0B Block=7.18MB / 0B} PIDs=1
+```
+
+
 ## Obtener las estadisticas de los contenedores mediante APIs ##
 
 1. https://medium.com/devopslinks/monitoring-docker-with-python-domonit-34440b8c6830
