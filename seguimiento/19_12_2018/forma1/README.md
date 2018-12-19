@@ -71,6 +71,13 @@ sudo service docker restart
      curl http://localhost:2376/containers/b91f79693dbf/stats
    ```
 
+## Obtener las estadisticas de los contenedores mediante APIs ##
+
+1. https://medium.com/devopslinks/monitoring-docker-with-python-domonit-34440b8c6830
+2. https://github.com/docker/docker-py
+3. https://github.com/docker/docker-py/issues/1546
+
+
 ## Referencias ##
 1. [docker stats](https://docs.docker.com/engine/reference/commandline/stats/)
 2. [Runtime metrics](https://docs.docker.com/config/containers/runmetrics/)
