@@ -1,0 +1,159 @@
+https://dzone.com/articles/monitoring-docker-containers-docker-stats-cadvisor
+
+sudo docker run -d -p 8091-8093:8091-8093 -p 11210:11210 --name couchbase arungupta/couchbase
+sudo docker stop couchbase
+
+
+
+Para correr un contenedor: https://medium.com/the-code-review/top-10-docker-run-command-options-you-cant-live-without-a-reference-d256834e86c1
+
+docker run -it <image> /bin/bash
+docker run -it ubuntu bash
+
+1. Se llamo el siguiente contenedor:
+
+docker run --rm --name host1 -h host1 -it ubuntu:trusty bash
+
+2. 
+
+sudo docker run -d -p 8091-8093:8091-8093 -p 11210:11210 --name couchbase arungupta/couchbase
+sudo docker stop couchbase
+
+
+3. Sudo docker stats:
+
+sudo docker stats
+
+CONTAINER ID        NAME                CPU %               MEM USAGE / LIMIT   MEM %               NET I/O             BLOCK I/O           PIDS
+b947cb94afb4        couchbase           4.46%               391MiB / 7.689GiB   4.97%               8.14kB / 0B         0B / 1.01MB         218
+
+Solo muestra la primera captura:
+
+sudo docker stats --no-stream
+
+CONTAINER ID        NAME                CPU %               MEM USAGE / LIMIT     MEM %               NET I/O             BLOCK I/O           PIDS
+b947cb94afb4        couchbase           4.12%               396.8MiB / 7.689GiB   5.04%               9.59kB / 0B         0B / 1.02MB         220
+
+
+4. sudo docker
+
+	tigarto@fuck-pc:~$ sudo docker ps
+CONTAINER ID        IMAGE                 COMMAND                  CREATED             STATUS              PORTS                                                                                                         NAMES
+b947cb94afb4        arungupta/couchbase   "/entrypoint.sh /opt…"   4 minutes ago       Up 4 minutes        8094/tcp, 0.0.0.0:8091-8093->8091-8093/tcp, 11207/tcp, 11211/tcp, 0.0.0.0:11210->11210/tcp, 18091-18093/tcp   couchbase
+tigarto@fuck-pc:~$ sudo stop b947cb94afb4 
+stop: Unable to connect to Upstart: Failed to connect to socket /com/ubuntu/upstart: Connection refused
+tigarto@fuck-pc:~$ sudo docker stop b947cb94afb4 
+b947cb94afb4
+tigarto@fuck-pc:~$ sudo docker rm b947cb94afb4 
+
+***************************************************************************************************************************
+
+PARTE 2
+
+https://blog.trifork.com/2013/12/24/docker-from-a-distance-the-remote-api/
+https://success.docker.com/article/how-do-i-enable-the-remote-api-for-dockerd
+
+https://medium.com/@ssmak/how-to-enable-docker-remote-api-on-docker-host-7b73bd3278c6
+
+Vamos a seguir los pasos de https://success.docker.com/article/how-do-i-enable-the-remote-api-for-dockerd
+
+-----------------------------------------------------------------------
+
+cd /lib/systemd/system
+sudo gedit docker.service
+
+ExecStart=/usr/bin/dockerd -H unix:// -H tcp://0.0.0.0:2376
+
+
+Luego: 
+http://localhost:2376/images/json
+
+Y ya resta lo demas
+
+docker run --rm --name host1 -h host1 -it ubuntu:trusty bash
+
+ID del container:
+b91f79693dbf 
+
+
+http://localhost:2376/containers/b91f79693dbf/stats
+
+curl http://localhost:2376/containers/b91f79693dbf/stats
+
+------------------------------------------------------------------------------
+
+Mas enlaces: search en dzone: docker monitoring
+
+https://dzone.com/articles/how-to-monitor-docker-performance-librato-blog
+https://dzone.com/articles/docker-events-and-docker
+https://dzone.com/articles/monitoring-docker-container-health
+https://dzone.com/articles/docker-monitoring-support
+https://dzone.com/articles/monitoring-docker-with-influxdb
+https://dzone.com/articles/open-source-docker-monitoring-logging
+https://dzone.com/articles/an-all-inclusive-log-monitoring-container-for-dock
+https://www.brianchristner.io/how-to-setup-prometheus-docker-monitoring/
+https://dzone.com/articles/monitoring-docker-containers-with-elasticsearch-an
+https://dzone.com/articles/nginx-amplify-monitors-microservices-in-docker-con
+
+https://dzone.com/articles/5-docker-utilities-you-should-know
+
+Para interpretar cadvisor: https://dzone.com/articles/docker-metrics-to-watch
+
+https://dzone.com/articles/monitoring-with-prometheus
+
+https://dzone.com/articles/50-useful-docker-tools
+
+https://about.gitlab.com/product/continuous-integration/
+https://www.shippable.com/
+https://www.syslog-ng.com/products/open-source-log-management/
+
+
+Project Calico
+A highly scalable open source project, Calico provides a Layer 3 approach to virtual networking which can support a vast number of virtual machine clusters across countless compute hosts. This tool's simplified network model design supports the configuration of fine-grained connectivity policies for each of your workloads and allows SDNs to be centrally managed.
+https://www.projectcalico.org/docker-libnetwork-is-almost-here-and-calico-is-ready/
+
+https://dzone.com/articles/encounter-with-docker
+
+************************************************************************************************************************
+
+PARTE 3
+
+https://kylewbanks.com/blog/docker-stats-memory-cpu-in-json-format
+
+docker run --rm --name host1 -h host1 -it ubuntu:trusty bash
+
+sudo docker stats --no-stream --format \
+    "{\"container\":\"{{ .Container }}\",\"memory\":{\"raw\":\"{{ .MemUsage }}\",\"percent\":\"{{ .MemPerc }}\"},\"cpu\":\"{{ .CPUPerc }}\"}"
+
+
+salida
+
+{"container":"f70139e2cff1","memory":{"raw":"2.055MiB / 7.689GiB","percent":"0.03%"},"cpu":"0.00%"}
+
+
+***** 
+
+Hay un paquete en go para esto: https://github.com/KyleBanks/dockerstats
+
+Se clono en el directorio home del usuario:
+git clone https://github.com/KyleBanks/dockerstats.git
+
+
+Aun no me da: https://github.com/golang/go/wiki/SettingGOPATH
+
+Google: : cannot find package
+
+--- install go package
+
+
+go get -v github.com:KyleBanks/dockerstats
+
+
+Aun daba asi que primerso se procedio a instalar el paquete desde github:
+
+go get -v github.com/KyleBanks/dockerstats
+
+Parece que hay que hay que fijar cosas para goroot.
+
+
+
