@@ -155,5 +155,9 @@ go get -v github.com/KyleBanks/dockerstats
 
 Parece que hay que hay que fijar cosas para goroot.
 
+*********************
+
+https://github.com/dockersamples/example-voting-app
+
 
 
