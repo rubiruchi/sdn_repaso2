@@ -57,6 +57,20 @@ sudo service docker restart
 ```
 6. Si todo esta bien puede ejecutar en el navegador la ruta **http://localhost:2376/images/json** y se deberia mostrar un archivo json asociado a las imagenes. Tambien de forma alterna se puede emplear el comando **curl http://localhost:2376/images/json** y este resultado sera mostrado en consola.
 
+7. Para obtener las estadisticas tenemos el siguiente comando basico **http://localhost:2376/containers/ID_CONTAINER/stats**. Suponiendo para el caso que el **ID_CONTAINER** del contenedor asociado a la imagen ubuntu:trusty (previamente ejecutado es) **b91f79693dbf**. Se tiene los posibles comandos para obtener las estadisticas son:
+
+   * **Forma 1**: En el navegador.
+   
+   ```
+     http://localhost:2376/containers/b91f79693dbf/stats
+   ```
+   
+   * **Forma 2**: En la consola.
+   
+   ```bash 
+     curl http://localhost:2376/containers/b91f79693dbf/stats
+   ```
+
 ## Referencias ##
 1. [docker stats](https://docs.docker.com/engine/reference/commandline/stats/)
 2. [Runtime metrics](https://docs.docker.com/config/containers/runmetrics/)
