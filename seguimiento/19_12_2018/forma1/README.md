@@ -24,6 +24,39 @@ CONTAINER ID        NAME                CPU %               MEM USAGE / LIMIT   
 b947cb94afb4        couchbase           4.12%               396.8MiB / 7.689GiB   5.04%               9.59kB / 0B         0B / 1.02MB         220
 ```
 
+## Monitoreo de contenedores mediante el docker remote API ##
+
+Inicialmente se debe habilitar este API en un host. Para entender el proceso nos basamos en los siguientes enlaces:
+1. [How to enable docker remote API on docker host?](https://medium.com/@ssmak/how-to-enable-docker-remote-api-on-docker-host-7b73bd3278c6)
+2. [How do I enable the remote API for dockerd](https://success.docker.com/article/how-do-i-enable-the-remote-api-for-dockerd)
+
+Los pasos fueron:
+1. Editar el archivo **docker.service** ubicado en **/lib/systemd/system**:
+
+```bash
+cd /lib/systemd/system
+sudo gedit docker.service
+```
+2. Actualizar la variable **ExecStart** al siguiente valor **/usr/bin/dockerd -H unix:// -H tcp://0.0.0.0:2376**: 
+
+```
+ExecStart=/usr/bin/dockerd -H unix:// -H tcp://0.0.0.0:2376
+```
+
+3. Guardar cambios.
+4. Reoad el demonio docker:
+
+```bash
+sudo systemctl daemon-reload
+```
+
+5. Reiniciar el contenedor:
+
+```bash
+sudo service docker restart
+```
+6. Si todo esta bien puede ejecutar en el navegador la ruta **http://localhost:2376/images/json** y se deberia mostrar un archivo json asociado a las imagenes. Tambien de forma alterna se puede emplear el comando **curl http://localhost:2376/images/json** y este resultado sera mostrado en consola.
+
 ## Referencias ##
 1. [docker stats](https://docs.docker.com/engine/reference/commandline/stats/)
 2. [Runtime metrics](https://docs.docker.com/config/containers/runmetrics/)
