@@ -80,12 +80,22 @@ https://rancher.com/comparing-monitoring-options-for-docker-deployments/
 ------------------------------------------------------------------------------------------------------
 docker stats 
 
-sudo docker stats CONT1 CONT2 ...
+sudo docker stats [CONT1 CONT2 ...]
 
 
 request to: /containers/[CONTAINER_NAME]/stats 
 
 echo -e "GET /containers/[CONTAINER_NAME]/stats HTTP/1.0\r\n" | nc -U /var/run/docker.sock
+
+Se obtiene:
+docker stats display a live stream of the following container(s) resource usage statistics:
+
+CPU % usage
+Memory usage, limit, % usage
+Network i/o
+Disk i/o
+
+
 
 Enlace:
 https://github.com/moby/moby/issues/22618
@@ -96,6 +106,24 @@ Conclusiones: Con el ultimo caso podriamos tener una metrica para los contenedor
 
 -------------------------------------------------------------------------------------------------------
 
+Develop with Docker Engine SDKs and API
+
+https://docs.docker.com/develop/sdk/
+
+Puede ser util para estadisticas.
+https://docs.docker.com/samples/
+
+Usando python, se puede hacer uso de un remote API para la obtencion de resultados.
+
+-------------------------------------------------------------------------------------------------------
+https://docs.logentries.com/docs/docker-logentries-container/
+
+
+
+
+
+
+-------------------------------------------------------------------------------------------------------
 Prometheus
 
 -------------------------------------------------------------------------------------------------------
@@ -103,4 +131,10 @@ Prometheus
 https://rancher.com/docker-monitoring-continued-prometheus-and-sysdig/
 
 https://github.com/puppetlabs/puppetlabs-docker_ucp
+https://dzone.com/articles/monitoring-docker-containers-docker-stats-cadvisor (Ver)
+https://github.com/veggiemonk/awesome-docker
+-------------------------------------------------------------------------------------
+https://dzone.com/articles/monitoring-docker-containers-docker-stats-cadvisor (Seguir este tutorial ahora).
+
+
 
