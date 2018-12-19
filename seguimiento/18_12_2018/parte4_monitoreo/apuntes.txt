@@ -73,4 +73,34 @@ https://github.com/stefanprodan/swarmprom
 https://blog.iron.io/right-sizing-with-docker-stats-and-cadvisor/
 
 
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+https://rancher.com/comparing-monitoring-options-for-docker-deployments/
+
+------------------------------------------------------------------------------------------------------
+docker stats 
+
+sudo docker stats CONT1 CONT2 ...
+
+
+request to: /containers/[CONTAINER_NAME]/stats 
+
+echo -e "GET /containers/[CONTAINER_NAME]/stats HTTP/1.0\r\n" | nc -U /var/run/docker.sock
+
+Enlace:
+https://github.com/moby/moby/issues/22618
+https://kylewbanks.com/blog/docker-stats-memory-cpu-in-json-format
+https://github.com/KyleBanks/dockerstats
+
+Conclusiones: Con el ultimo caso podriamos tener una metrica para los contenedores.
+
+-------------------------------------------------------------------------------------------------------
+
+Prometheus
+
+-------------------------------------------------------------------------------------------------------
+
+https://rancher.com/docker-monitoring-continued-prometheus-and-sysdig/
+
+https://github.com/puppetlabs/puppetlabs-docker_ucp
 
