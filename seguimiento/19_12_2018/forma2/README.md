@@ -32,6 +32,10 @@ vagrant up
 ```bash
 vagrant ssh
 ```
+A continuación se muestra la maquina virtual:
+
+![vm](./sdn-cockpit-vm.png)
+
 4. Se llama el script run.sh:
 
 ```bash
@@ -45,8 +49,33 @@ cwd  local  __mn_ready  remote  run.sh  templates  tmp_result_1545279556.93.yaml
 
 5. Si todo esta bien aparece la siguiente interfaz de prueba:
 
-![interfaz1]()
+![interfaz1](./sdn-cockpit-interface_0.png)
 
+**Nota**: como se  puede ver en la esquina superior izquierda hay un problema cargando la tarea (demo.yaml) en este momento por lo que se hace necesario reiniciar la tarea. La siguiente figura muestra esta parte de la interfaz para mayor claridad:
 
+![interfaz_tarea](./sdn-cockpit-interface_task.png)
+
+**Pasos adicionales para lograr cargar la tarea**:
+
+6. En la esquina superior derecha ejecute la combinacion ```Ctrl + C```, el resultado se muestra a continuación:
+
+![interfaz_ctrl_c](sdn-cockpit-interface_1.png)
+
+7. Empleando el script **script_restart_task.sh** que se encuentra en el directorio **remote** cargue nuevamente la tarea asociada (**demo.yaml** para este caso) la cual se encuentra en el directorio **local/app/tasks/** asi:
+
+```bash
+./remote/script_restart_task.sh local/app/tasks/demo.yaml
+```
+
+Si todo esta bien ya se cargo la tarea tal y como se muestra en la siguiente figura:
+
+![interfaz](sdn-cockpit-interface.png)
+
+8. Lo que resta es cacharrear y aprender lo que no se sabe. 
+
+## Conclusiones ##
+1. El uso de esta herramienta puede que sea fundamental cuando se est manipulando codigo del controlador para el desarrollo de la aplicación.
+2. Hasta el momento solo nos centramos en la instalación.
+3. La carga de la tarea fue un paso adicional que se hizo por que al principio las cosas no daban como esperabamos.
 
 
