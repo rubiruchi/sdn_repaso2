@@ -73,7 +73,13 @@ Si todo esta bien ya se cargo la tarea tal y como se muestra en la siguiente fig
 
 8. Lo que resta es cacharrear y aprender lo que no se sabe. 
 
-## Conclusiones ##
+9. Para culminar apagamos la maguina virtual (se debe estar en la carpeta sdn-cockpit) empleando el comando:
+
+```bash
+vagrant halt
+```
+
+## Conclusiones ## 
 1. El uso de esta herramienta puede que sea fundamental cuando se est manipulando codigo del controlador para el desarrollo de la aplicación.
 2. Hasta el momento solo nos centramos en la instalación.
 3. La carga de la tarea fue un paso adicional que se hizo por que al principio las cosas no daban como esperabamos.
