@@ -32,4 +32,21 @@ vagrant up
 ```bash
 vagrant ssh
 ```
+4. Se llama el script run.sh:
+
+```bash
+# listando el directorio actual
+ls
+cwd  local  __mn_ready  remote  run.sh  templates  tmp_result_1545279556.93.yaml  tmp_topology.mn
+
+# Ejecutando el script
+./run.sh
+```
+
+5. Si todo esta bien aparece la siguiente interfaz de prueba:
+
+![interfaz1]()
+
+
+
 
