@@ -1,0 +1,84 @@
+google: para la parte de multiples terminales.
+
+https://dl.gi.de/bitstream/handle/20.500.12116/16581/DFN-Forum-Proceedings-008.pdf?sequence=1&isAllowed=y
+https://www.dfn.de/fileadmin/7Veranstaltungen/Technologieforum/2018/Folien_Vortraege/TF_2108_Teaching_Network_Softwarization_Heseding.pdf
+https://github.com/kit-tm/sdn-cockpit
+
+
+==> default: Waiting for machine to boot. This may take a few minutes...
+    default: SSH address: 127.0.0.1:2222
+    default: SSH username: vagrant
+    default: SSH auth method: private key
+
+Password as well as username are set to vagrant
+
+En la misma terminal:
+
+vagrant ssh --> OK
+
+*********************************
+
+Reetornando al problema que no da:
+
+
+down vote
+This is what worked for me, the fix is not mine but I would rather write it down here in case someone else has the same problem.
+
+The original author posted it here: digital-ocean-public-access-key-denied
+
+sudo nano /etc/ssh/sshd_config
+Replace this
+
+UsePAM yes
+IgnoreUserKnownHosts no
+PasswordAuthentication no
+
+With this
+
+UsePAM no
+IgnoreUserKnownHosts no
+PasswordAuthentication yes
+
+
+Save the file and restart ssh
+
+reload ssh
+
+https://www.digitalocean.com/community/questions/error-permission-denied-publickey-when-i-try-to-ssh
+
+https://www.siteground.es/kb/error-permission-denied-publickey-cuanto-intento-conectar-traves-ssh/
+
+
+ssh -p 2222 -vvv vagrant@127.0.0.1
+
+--------------------------------------------
+
+https://github.com/KatharaFramework/Kathara
+https://github.com/araobp/nlan
+
+
+https://github.com/blynotes/CS6301_SDN
+https://github.com/vkonagar/Mitigating-ARP-Spoofing-Attacks-in-SDN
+https://github.com/fernnf/vsdnemul
+https://github.com/TUDelftNAS/Delftvisor
+https://github.com/AUTProjects/SDNBazi
+https://github.com/waynezhang1995/Simple-POX-Firewall
+https://github.com/telstra/Programmable-Network-SDK-python
+https://github.com/GFVOD/ryu
+https://github.com/ksator/northstar_SDN_controller_automation
+https://github.com/ClarkZinzow/SDN-Distributed-Load-Balancer
+https://github.com/salvadorestran/sdfw
+https://github.com/albertvinyes/openvswitch_scripts
+https://github.com/mcanalesmayo/sdn_load_balancer
+https://github.com/kytos/kytos
+https://github.com/sdnds-tw/Ryu-SDN-IP
+https://github.com/nss-lab/DELTA
+
+
+https://github.com/blynotes/CS6301_SDN/tree/master/Guides
+
+
+----------------------------------------------------------------
+toco emplear el restart de la tarea.
+
+
