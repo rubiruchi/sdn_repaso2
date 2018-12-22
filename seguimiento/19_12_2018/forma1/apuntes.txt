@@ -159,5 +159,21 @@ Parece que hay que hay que fijar cosas para goroot.
 
 https://github.com/dockersamples/example-voting-app
 
+********************************************************
 
+
+pip install requests-unixsocket
+
+
+https://www.correlsense.com/automating-docker-container-monitoring/
+
+
+sudo pip2 install check_docker (Error)
+
+sudo pip3 install check_docker
+sudo pip3.4 install check_docker
+
+
+https://pypi.org/project/check_docker/
+https://dzone.com/refcardz/intro-to-docker-monitoring?chapter=1
 

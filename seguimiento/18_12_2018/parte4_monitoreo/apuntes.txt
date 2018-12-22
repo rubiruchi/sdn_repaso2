@@ -137,5 +137,119 @@ https://www.katacoda.com/
 -------------------------------------------------------------------------------------
 https://dzone.com/articles/monitoring-docker-containers-docker-stats-cadvisor (Seguir este tutorial ahora).
 
+********************************************************************************************************************
+********************************************************************************************************************
+
+Fecha: 21/12/2018
+
+https://dzone.com/refcardz/intro-to-docker-monitoring?chapter=6
+
+Modificar IP del archivo de configuración de Prometheus:
+192.168.1.6 
+
+
+Arrancar el prometheus:
+sudo docker-compose up
+
+
+sudo docker run -h c0 --name c0 -p 6633:6633 -it --rm sonatanfv/sonata-ryu-vnf /bin/bash
+cd ryu
+ryu-manager --ofp-tcp-listen-port 6633 ryu/app/simple_switch_13.py 
+
+sudo python topo_test.py 
+
+https://labs.bawi.io/monitoring-containers-with-prometheus-ffde286c17f7
+
+
+A continuación se colocan las medidas con cAdvisor:
+https://github.com/google/cadvisor/blob/master/docs/storage/prometheus.md
+https://prometheus.io/docs/guides/cadvisor/
+https://prometheus.io/docs/practices/naming/
+
+Metricas:
+container_cpu_usage_seconds_total{cpu="cpu03",id="/docker/fb4ad0e4d7b512287a2f9f1fb6357ab32ff5cdcc44ceef01b27514f5de0257ba",image="sonatanfv/sonata-ryu-vnf",instance="192.168.1.6:8090",job="cadvisor",name="c0"}
+
+container_cpu_usage_seconds_total{cpu="cpu03",instance="192.168.1.6:8090",job="cadvisor",name="c0"}
+
+container_cpu_usage_seconds_total{cpu="cpu00",id="/docker/fb4ad0e4d7b512287a2f9f1fb6357ab32ff5cdcc44ceef01b27514f5de0257ba",image="sonatanfv/sonata-ryu-vnf",instance="192.168.1.6:8090",job="cadvisor",name="c0"}
+
+container_network_receive_bytes_total{interface="h1-eth0",job="cadvisor",name="mn.h1"}
+container_network_receive_bytes_total{interface="h2-eth0",job="cadvisor",name="mn.h2"}
+container_network_receive_bytes_total{interface="h3-eth0",job="cadvisor",name="mn.h3"}
+container_network_receive_bytes_total{interface="h4-eth0",job="cadvisor",name="mn.h4"}
+
+Aplicando funciones:
+
+
+rate(container_network_receive_bytes_total{interface="h1-eth0",job="cadvisor",name="mn.h1"}[10s])
+rate(container_network_receive_bytes_total{interface="h2-eth0",job="cadvisor",name="mn.h2"}[10s])
+rate(container_network_receive_bytes_total{interface="h3-eth0",job="cadvisor",name="mn.h3"}[10s])
+rate(container_network_receive_bytes_total{interface="h4-eth0",job="cadvisor",name="mn.h4"}[10s])
+
+CPU
+
+container_memory_usage_bytes{name="mn.h1"}
+container_memory_usage_bytes{name="mn.h2"}
+container_memory_usage_bytes{name="mn.h3"}
+container_memory_usage_bytes{name="mn.h4"}
+
+container_memory_usage_bytes{name="cAdvisor"}
+
+user: admin
+pass: admin
+
+
+https://grafana.com/dashboards/893
+
+-------------------------------------------------------------
+
+Se instalo:
+
+pip install requests-unixsocket
+
+
+https://www.correlsense.com/automating-docker-container-monitoring/
+
+
+sudo pip2 install check_docker (Error)
+
+sudo pip3 install check_docker
+sudo pip3.4 install check_docker
+
+
+https://pypi.org/project/check_docker/
+https://dzone.com/refcardz/intro-to-docker-monitoring?chapter=1
+	
+---------------------------------------------------------------------------------------
+
+https://github.com/faucetsdn/faucet
+https://faucet-sdn.blogspot.com/2018/01/flow-table-monitoring-in-prometheus.html
+https://networkshop.aarnet.edu.au/content/uploads/2017/06/SDN-Brad-Cowie.pdf
+
+
+https://blog.sflow.com/2018/10/ryu-measurement-based-control.html
+
+Ver: importante --> https://sdn-security.blogspot.com/2018/03/ryu-controller-network-security.html
+
+Vamos a trabajar con Fauset: https://www.ausnog.net/sites/default/files/ausnog-2018/presentations/1.8_Richard_Nelson_AusNOG2018.pdf
+
+https://www.ausnog.net/sites/default/files/ausnog-2018/presentations/1.8_Richard_Nelson_AusNOG2018.pdf
+
+https://thenewstack.io/sdn-series-part-iv-ryu-a-rich-featured-open-source-sdn-controller-supported-by-ntt-labs/
+
+
+https://github.com/leannetworking/ovs-exporter
+https://blog.sflow.com/2015/01/open-vswitch-performance-monitoring.html
+
+https://blog.sflow.com/2018/03/prometheus-and-grafana.html
+https://github.com/cloudflare/goflow
+
+
+https://prometheus.io/docs/instrumenting/exporters/
+
+https://sflow.org/sFlowOverview.pdf
+https://nlnog.net/static/nlnogcamp2018/NLNOG_Camp_2018_Streaming_telemetry_Joris_Arista.pdf
+https://www.netways.de/fileadmin/images/Events_Trainings/Events/OSMC/2015/Slides_2015/Prometheus_a_next-gen_monitoring_system-Fabian_Reinartz.pdf
+https://media.readthedocs.org/pdf/faucet/latest/faucet.pdf
 
 
