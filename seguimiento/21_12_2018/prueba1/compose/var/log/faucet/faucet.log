@@ -1,0 +1,12 @@
+Dec 22 05:23:00 faucet INFO     Reloading configuration
+Dec 22 05:23:00 faucet INFO     configuration /etc/faucet/faucet.yaml changed, analyzing differences
+Dec 22 05:23:00 faucet.config INFO     including file: /etc/faucet/acls.yaml
+Dec 22 05:23:00 faucet.config WARNING  not a regular file or does not exist: /etc/faucet/acls.yaml
+Dec 22 05:23:00 faucet.config ERROR    unable to load required include file: /etc/faucet/acls.yaml
+Dec 22 05:23:00 faucet ERROR    New config bad (Error found while loading config file: /etc/faucet/faucet.yaml) - rejecting
+Dec 22 05:32:13 faucet INFO     Reloading configuration
+Dec 22 05:32:13 faucet INFO     configuration /etc/faucet/faucet.yaml changed, analyzing differences
+Dec 22 05:32:13 faucet.config INFO     including file: /etc/faucet/acls.yaml
+Dec 22 05:32:13 faucet.config WARNING  not a regular file or does not exist: /etc/faucet/acls.yaml
+Dec 22 05:32:13 faucet.config ERROR    unable to load required include file: /etc/faucet/acls.yaml
+Dec 22 05:32:13 faucet ERROR    New config bad (Error found while loading config file: /etc/faucet/faucet.yaml) - rejecting

@@ -1,0 +1,10 @@
+Dec 22 05:23:04 gauge  INFO     Reloading configuration
+Dec 22 05:23:04 gauge.config INFO     including file: /etc/faucet/acls.yaml
+Dec 22 05:23:04 gauge.config WARNING  not a regular file or does not exist: /etc/faucet/acls.yaml
+Dec 22 05:23:04 gauge.config ERROR    unable to load required include file: /etc/faucet/acls.yaml
+Dec 22 05:23:04 gauge  ERROR    invalid config: Error found while loading config file: /etc/faucet/faucet.yaml
+Dec 22 05:32:18 gauge  INFO     Reloading configuration
+Dec 22 05:32:18 gauge.config INFO     including file: /etc/faucet/acls.yaml
+Dec 22 05:32:18 gauge.config WARNING  not a regular file or does not exist: /etc/faucet/acls.yaml
+Dec 22 05:32:18 gauge.config ERROR    unable to load required include file: /etc/faucet/acls.yaml
+Dec 22 05:32:18 gauge  ERROR    invalid config: Error found while loading config file: /etc/faucet/faucet.yaml

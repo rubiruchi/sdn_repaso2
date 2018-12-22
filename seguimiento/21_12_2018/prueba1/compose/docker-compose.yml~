@@ -1,0 +1,90 @@
+version: '2' volumes:
+
+prometheus_data:{ }
+grafana_data:{ }
+
+
+version: '2'
+services:
+    influxdb:
+        restart: always
+        image: 'influxdb:1.6-alpine'
+        ports:
+            - '8086'
+            - '8083'
+        volumes:
+            - './opt/influxdb/shared/data/db:/var/lib/influxdb'
+        environment:
+            INFLUXDB_DB: 'faucet'
+            INFLUXDB_HTTP_AUTH_ENABLED: 'true'
+            INFLUXDB_ADMIN_USER: 'faucet'
+            INFLUXDB_ADMIN_PASSWORD: 'faucet'
+
+    prometheus:
+        restart: always
+        image: prom/prometheus
+        container_name: prometheus
+        volumes:
+            - './config:/etc/prometheus'
+            - 'prometheus_data:/prometheus'
+            - './etc/prometheus/faucet.rules.yml:/etc/prometheus/faucet.rules.yml'
+        ports:
+            - 9090:9090
+        command: 
+            - '--config.file=/etc/prometheus/prometheus.yml'
+            - '--storage.tsdb.path=/prometheus'
+            - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+            - '--web.console.templates=/usr/share/prometheus/consoles'
+        links:
+            - cadvisor
+            - metrics-gateway
+            - faucet
+            - gauge
+
+    grafana:
+        restart: always
+        image: 'grafana/grafana:5.1.0'
+        container_name: grafana
+        ports:
+            - '3000:3000'
+        user: "104"
+        volumes:
+            - './opt/grafana:/var/lib/grafana'
+        links:
+            - influxdb
+            - prometheus
+
+    gauge:
+        restart: always
+        build:
+            context: .
+            dockerfile: Dockerfile.gauge
+        image: 'faucet/gauge:latest'
+        environment:
+            GAUGE_CONFIG: './etc/faucet/gauge.yaml'
+        volumes:
+            - './var/log/faucet:/var/log/faucet'
+            - './etc/faucet:/etc/faucet'
+        ports:
+            - '6654:6653'
+            - '9303'
+        links:
+            - influxdb
+
+    faucet:
+        restart: always
+        build:
+            context: .
+            dockerfile: Dockerfile.faucet
+        image: 'faucet/faucet:latest'
+        volumes:
+            - './var/log/faucet:/var/log/faucet'
+            - './etc/faucet:/etc/faucet'
+        ports:
+            - '6653:6653'
+            - '9302'
+        # environment:
+        #    FAUCET_CONFIG_STAT_RELOAD: '${FAUCET_CONFIG_STAT_RELOAD}'
+        #    FAUCET_EVENT_SOCK: '${FAUCET_EVENT_SOCK}'
+
+

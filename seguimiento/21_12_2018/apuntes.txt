@@ -1,0 +1,161 @@
+Fecha: 21/12/2018
+
+Apuntes de Faucet:
+https://faucet-sdn.blogspot.com/2017/05/using-prometheus-with-faucet.html
+https://faucet-sdn.blogspot.com/2017/05/faucet-now-supports-prometheus.html
+https://faucet.nz/
+https://faucet.readthedocs.io/en/1.8.1/tutorials/tutorials.html
+https://github.com/faucetsdn/faucet/blob/master/etc/systemd/system/prometheus.service
+https://faucet-sdn.blogspot.com/
+
+
+Articulo:http://delivery.acm.org/10.1145/3020000/3015763/p30-bailey.pdf?ip=181.138.120.244&id=3015763&acc=OPEN&key=4D4702B0C3E38B35%2E4D4702B0C3E38B35%2E4D4702B0C3E38B35%2E6D218144511F3437&__acm__=1545449513_f153baf9e860e9bf3981410ae5eb211c
+
+***
+Para mas tarde:
+
+Para nuestro caso:
+
+sudo docker run -h c0 --name c0 -p 6633:6633 -it --rm sonatanfv/sonata-ryu-vnf /bin/bash
+cd ryu
+ryu-manager --ofp-tcp-listen-port 6633 ryu/app/simple_switch_13.py
+
+
+sudo python topo_test.py
+
+
+***
+
+Sobre Faucet y Gauge: https://faucet.readthedocs.io/en/latest/intro.html
+
+Instalando: https://docs.faucet.nz/en/latest/installation.html#faucet-docker-install
+
+We provide official automated builds on Docker Hub so that you can easily run Faucet and it’s components in a self-contained environment without installing on the main host system.
+
+
+Configuring dockers
+
+
+
+sudo mkdir -p /etc/faucet
+sudo gedit /etc/faucet/faucet.yaml
+sudo gedit /etc/faucet/gauge.yaml
+
+Starting dockers
+
+En dockerhub esta en: https://hub.docker.com/r/faucet/faucet
+
+Faucet:
+
+sudo mkdir -p /var/log/faucet/
+
+sudo docker pull faucet/faucet:latest
+
+sudo docker run -d \
+    --name faucet \
+    --restart=always \
+    -v /etc/faucet/:/etc/faucet/ \
+    -v /var/log/faucet/:/var/log/faucet/ \
+    -p 6653:6653 \
+    -p 9302:9302 \
+    faucet/faucet
+
+Port 6653 is used for OpenFlow, port 9302 is used for Prometheus
+
+
+Gauge:
+
+
+sudo mkdir -p /var/log/faucet/gauge/
+
+sudo docker pull faucet/gauge:latest
+
+sudo docker run -d \
+    --name gauge \
+    --restart=always \
+    -v /etc/faucet/:/etc/faucet/ \
+    -v /var/log/faucet/:/var/log/faucet/ \
+    -p 6654:6653 \
+    -p 9303:9303 \
+    faucet/gauge
+
+Port 6654 is used for OpenFlow, port 9303 is used for Prometheus - port 9303 may be omitted if you do not need Prometheus.
+
+
+Lista adicional de parametros:
+
+docker run -it faucet/faucet faucet --help
+
+usage: faucet [-h] [--gauge] [-v] [-V] [--use-stderr] [--use-syslog]
+              [--ryu-app APP] [--ryu-ca-certs RYU_CA_CERTS]
+              [--ryu-config-dir RYU_CONFIG_DIR]
+              [--ryu-config-file RYU_CONFIG_FILE]
+              [--ryu-ctl-cert RYU_CTL_CERT]
+              [--ryu-ctl-privkey RYU_CTL_PRIVKEY]
+              [--ryu-default-log-level RYU_DEFAULT_LOG_LEVEL]
+              [--ryu-log-config-file RYU_LOG_CONFIG_FILE]
+              [--ryu-log-dir RYU_LOG_DIR] [--ryu-log-file RYU_LOG_FILE]
+              [--ryu-log-file-mode RYU_LOG_FILE_MODE]
+              [--ryu-observe-links RYU_OBSERVE_LINKS]
+              [--ryu-ofp-listen-host RYU_OFP_LISTEN_HOST]
+              [--ryu-ofp-ssl-listen-port RYU_OFP_SSL_LISTEN_PORT]
+              [--ryu-ofp-switch-address-list RYU_OFP_SWITCH_ADDRESS_LIST]
+              [--ryu-ofp-switch-connect-interval RYU_OFP_SWITCH_CONNECT_INTERVAL]
+              [--ryu-ofp-tcp-listen-port RYU_OFP_TCP_LISTEN_PORT]
+              [--ryu-pid-file RYU_PID_FILE] [--ryu-user-flags RYU_USER_FLAGS]
+              [--ryu-wsapi-host RYU_WSAPI_HOST]
+              [--ryu-wsapi-port RYU_WSAPI_PORT]
+
+Faucet SDN Controller
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --gauge               run Gauge instead
+  -v, --verbose         produce verbose output
+  -V, --version         print version and exit
+  --use-stderr          log to standard error
+  --use-syslog          output to syslog
+  --ryu-app APP         add Ryu app (can be specified multiple times)
+...
+
+******************************************************+
+
+Para mas tarde: [--ryu-ofp-listen-host RYU_OFP_LISTEN_HOST]
+
+ --ryu-log-dir RYU_LOG_DIR
+                        log file directory
+  --ryu-log-file RYU_LOG_FILE
+                        log file name
+
+
+
+Una vez arrancados:
+
+tigarto@fuck-pc:~$ sudo docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUS              PORTS                                            NAMES
+e82cfc58868b        faucet/gauge        "/usr/local/bin/entr…"   12 seconds ago       Up 9 seconds        0.0.0.0:9303->9303/tcp, 0.0.0.0:6654->6653/tcp   gauge
+64f2fd137b3e        faucet/faucet       "/usr/local/bin/entr…"   About a minute ago   Up About a minute   0.0.0.0:6653->6653/tcp, 0.0.0.0:9302->9302/tcp   faucet
+
+
+******************************************
+
+
+Configuracion de prometheus:
+
+https://docs.faucet.nz/en/latest/tutorials/first_time.html#configure-prometheus
+
+tigarto@fuck-pc:~$ sudo docker stop e82cfc58868b
+e82cfc58868b
+tigarto@fuck-pc:~$ sudo docker stop 64f2fd137b3e
+64f2fd137b3e
+tigarto@fuck-pc:~$ sudo docker rm e82cfc58868b
+e82cfc58868b
+tigarto@fuck-pc:~$ sudo docker rm 64f2fd137b3e
+
+DE LA PAGINA https://github.com/faucetsdn/faucet ver:
+1. https://github.com/faucetsdn/faucet/tree/master/etc/prometheus
+2. https://github.com/faucetsdn/faucet/blob/master/docker-compose.yaml
+3. https://github.com/faucetsdn/faucet/blob/master/etc/prometheus/prometheus-docker-compose.yml
+4. https://github.com/faucetsdn/faucet/blob/master/etc/prometheus/faucet.rules.yml
+
+
