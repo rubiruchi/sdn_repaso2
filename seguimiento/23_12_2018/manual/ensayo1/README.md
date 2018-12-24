@@ -1,6 +1,43 @@
 Este ensayo se llevo a cabo siguiendo los pasos de: 
 https://docs.faucet.nz/en/latest/tutorials/first_time.html
 
+Instlaion:
+
+```bash
+sudo apt-get install curl gnupg apt-transport-https lsb-release
+echo "deb https://packagecloud.io/faucetsdn/faucet/$(lsb_release -si | awk '{print tolower($0)}')/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/faucet.list
+curl -L https://packagecloud.io/faucetsdn/faucet/gpgkey | sudo apt-key add -
+sudo apt-get update
+```
+```bash
+sudo apt-get install faucet-all-in-one
+```
+
+OK..
+
+La parte de grafana jodio:
+
+```bash
+tigarto@fuck-pc:~$ sudo systemctl restart prometheus
+tigarto@fuck-pc:~$ sudo systemctl daemon-reload
+tigarto@fuck-pc:~$ sudo systemctl enable grafana-server
+Synchronizing state of grafana-server.service with SysV init with /lib/systemd/systemd-sysv-install...
+Executing /lib/systemd/systemd-sysv-install enable grafana-server
+insserv: warning: script 'sonata' missing LSB tags and overrides
+insserv: warning: script 'sonata' missing LSB tags and overrides
+tigarto@fuck-pc:~$ sudo systemctl stop grafana-server
+tigarto@fuck-pc:~$ sudo systemctl start grafana-server
+tigarto@fuck-pc:~$ sudo systemctl enable grafana-server
+Synchronizing state of grafana-server.service with SysV init with /lib/systemd/systemd-sysv-install...
+Executing /lib/systemd/systemd-sysv-install enable grafana-server
+insserv: warning: script 'sonata' missing LSB tags and overrides
+insserv: warning: script 'sonata' missing LSB tags and overrides
+
+```
+La solucion fue con una parada
+
+En el paso 3 es donde me quedo....
+
 
 Error:
 ```bash
