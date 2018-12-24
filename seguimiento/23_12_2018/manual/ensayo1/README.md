@@ -38,6 +38,31 @@ La solucion fue con una parada
 
 En el paso 3 es donde me quedo....
 
+cuando doy 
+
+faucet --verbose
+
+sale esto:
+
+```
+tigarto@fuck-pc:~$ faucet --verbose
+loading app faucet.faucet
+Traceback (most recent call last):
+  File "/usr/local/bin/ryu-manager", line 11, in <module>
+    load_entry_point('ryu==4.24', 'console_scripts', 'ryu-manager')()
+  File "/usr/local/lib/python2.7/dist-packages/ryu/cmd/manager.py", line 98, in main
+    app_mgr.load_apps(app_lists)
+  File "/usr/local/lib/python2.7/dist-packages/ryu/base/app_manager.py", line 415, in load_apps
+    cls = self.load_app(app_cls_name)
+  File "/usr/local/lib/python2.7/dist-packages/ryu/base/app_manager.py", line 392, in load_app
+    mod = utils.import_module(name)
+  File "/usr/local/lib/python2.7/dist-packages/ryu/utils.py", line 108, in import_module
+    return importlib.import_module(modname)
+  File "/usr/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+ImportError: No module named faucet.faucet
+```
+
 
 Error:
 ```bash
