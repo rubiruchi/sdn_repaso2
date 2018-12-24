@@ -63,6 +63,58 @@ Traceback (most recent call last):
 ImportError: No module named faucet.faucet
 ```
 
+Ojo analizar:
+* https://github.com/gwacter-zz/sdn-workshop/blob/master/exercises/04-faucet.md
+* http://installfights.blogspot.com/2016/10/mininet-ryu-faucet-gauge-influxdb.html
+* https://github.com/MrMCandR/COMP514-Assignment-One
+* https://github.com/onfsdn/faucet_db/tree/master/faucet
+* http://www.openvswitch.org/support/ovscon2016/8/1450-mysore.pdf
+
+Se instalo lo siguiente:
+
+sudo pip install faucet==1.7.7
+
+parece que dio algo. No nada con el caso anterior no dio
+
+sudo pip3.4 install faucet   (Con este si como que dio algo)
+
+
+Ahora si
+
+```bash
+sudo systemctl start faucet
+sudo systemctl reload faucet
+```
+
+Ver:
+
+http://ask.xmodulo.com/remove-network-namespaces-linux.html
+
+$ sudo ip netns <namespace-name> delete
+
+sudo ip netns  host1 delete
+
+
+Para acabar 
+
+```
+tigarto@fuck-pc:~$ sudo systemctl stop faucet
+tigarto@fuck-pc:~$ sudo systemctl stop prometheus
+tigarto@fuck-pc:~$ sudo systemctl stop gauge
+tigarto@fuck-pc:~$ sudo systemctl start grafana-server
+```
+
+```bash
+tigarto@fuck-pc:~$ cat /var/log/faucet/faucet.log
+Dec 24 03:12:17 faucet INFO     Reloading configuration
+Dec 24 03:12:17 faucet INFO     configuration /etc/faucet/faucet.yaml changed, analyzing differences
+Dec 24 03:12:17 faucet INFO     Add new datapath DPID 1 (0x1)
+Dec 24 03:12:17 faucet.valve INFO     DPID 1 (0x1) sw1 table ID 0 table config match_types: (('eth_dst', True), ('eth_type', False), ('in_port', False), ('vlan_vid', False)) name: vlan next_tables: ['eth_src'] output: True set_fields: ('vlan_vid',) size: 32 vlan_port_scale: 1.5
+Dec 24 03:12:17 faucet.valve INFO     DPID 1 (0x1) sw1 table ID 1 table config match_types: (('eth_dst', True), ('eth_src', False), ('eth_type', False), ('in_port', False), ('vlan_vid', False)) miss_goto: eth_dst name: eth_src next_tables: ['eth_dst', 'flood'] output: True set_fields: ('vlan_vid', 'eth_dst') size: 32 table_id: 1 vlan_port_scale: 4.1
+Dec 24 03:12:17 faucet.valve INFO     DPID 1 (0x1) sw1 table ID 2 table config exact_match: True match_types: (('eth_dst', False), ('vlan_vid', False)) miss_goto: flood name: eth_dst output: True size: 32 table_id: 2 vlan_port_scale: 4.1
+Dec 24 03:12:17 faucet.valve INFO     DPID 1 (0x1) sw1 table ID 3 table config match_types: (('eth_dst', True), ('in_port', False), ('vlan_vid', False)) name: flood output: True size: 32 table_id: 3 vlan_port_scale: 2.1
+
+```
 
 Error:
 ```bash
