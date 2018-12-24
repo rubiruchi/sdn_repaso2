@@ -1,0 +1,61 @@
+https://github.com/alshaboti?tab=repositories
+https://github.com/alshaboti/pegler
+https://github.com/alshaboti/home-assistant
+
+https://github.com/alshaboti/faucetTutorial
+https://github.com/alshaboti/faucet_tutorial
+https://github.com/alshaboti/sdn-sim
+https://github.com/alshaboti/poseidon
+
+https://inside-openflow.com/shop/
+
+https://www.ferro.pro/nw/SDN.html#switch---c---lagopus---openflow-13
+
+------------------------------------------------
+
+https://wand.nz/~brad/talks/faucet.pdf
+
+docker run -d \
+ --name faucet \
+ -v <path-to-config-dir>:/etc/ryu/faucet/ \
+ -v <path-to-logging-dir>:/var/log/ryu/faucet/ \
+ -p 6633:6633 \
+ faucet/faucet
+
+Prebuilt VM appliance
+• https://susestudio.com/a/ENQFFD/ryu-faucet
+
+https://github.com/faucetsdn/faucet/tree/master/tests/integration
+
+https://github.com/faucetsdn/faucet/blob/master/docs/tutorials/first_time.rst
+
+El video del señor arabe es tomado de: https://github.com/faucetsdn/faucet/blob/master/docs/tutorials/first_time.rst
+
+PARA EL CASO DE FAUCET PREFIX
+
+https://github.com/faucetsdn/faucet/blob/d98db0a243b3fa5bbedc04999bfdd4d07b00f53d/docs/installation.rst
+
+docker run -it --rm faucet/faucet faucet --help
+
+
+ERROR:
+
+https://stackoverflow.com/questions/45972812/are-you-trying-to-mount-a-directory-onto-a-file-or-vice-versa
+
+sudo docker volume rm $(sudo docker volume ls -q)
+
+
+sudo docker rm -v prueba2_prometheus_1
+
+
+Error prometheus
+https://stackoverflow.com/questions/39567846/prometheus-monitoring-issue-for-mysql
+https://docs.docker.com/config/thirdparty/prometheus/#configure-and-run-prometheus
+
+https://github.com/prometheus/prometheus/issues/4419
+
+https://stackoverflow.com/questions/39570884/prometheus-getsockopt-connection-refused
+
+https://groups.google.com/forum/#!topic/prometheus-developers/uBNQ3vHmxcM
+
+
