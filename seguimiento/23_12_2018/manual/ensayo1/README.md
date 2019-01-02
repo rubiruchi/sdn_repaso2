@@ -54,6 +54,56 @@ scrape_configs:
     static_configs:
       - targets: ['localhost:9303']
 ```
+Sin embargo, para que diera (no se por que), la dirección IP **localhost** debe ser cambiada por la IP de la interfaz de red de la maquina en la que se estan haciendo las pruebas. Usando ifconfig 
+
+```bash
+(venv) tigarto@fuck-pc:~/ofworkspace/mininet-topologies$ ifconfig 
+docker0   Link encap:Ethernet  ...
+          ...
+
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1 ...
+          ...
+
+wlp2s0    Link encap:Ethernet  ...
+          inet addr:192.168.1.6 ... 
+          ...
+```
+Según lo anterior lo que se hizo fue cambiar la dirección **localhost** por la dirección IP de **wlp2s0** la cual es **192.168.1.6**. De este modo el archivo quddo asi:
+
+```yaml
+# my global config
+global:
+  scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  # scrape_timeout is set to the global default (10s).
+
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+rule_files:
+  - "faucet.rules.yml"
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['192.168.1.6:9090']
+  - job_name: 'faucet'
+    static_configs:
+      - targets: ['192.168.1.6:9302']
+  - job_name: 'gauge'
+    static_configs:
+      - targets: ['192.168.1.6:9303']
+```
+Los pasos para hacer que prometheus use el archivo de configuracion asociado a faucet se llevaron a cabo sin novedad. Luego, se procedió a reiniciar prometheus:
+
+```bash
+tigarto@fuck-pc:~$ sudo systemctl restart prometheus
+```
+El resultado arrojo lo esperado.
+
+Steps to make prometheus use the configuration file shipped with faucet:
 
 
 La parte de grafana jodio:
