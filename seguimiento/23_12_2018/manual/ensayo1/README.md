@@ -142,17 +142,18 @@ Executing /lib/systemd/systemd-sysv-install enable grafana-server
 insserv: warning: script 'sonata' missing LSB tags and overrides
 insserv: warning: script 'sonata' missing LSB tags and overrides
 ```
-Luego de hacer lo anterior, pese a los warning ya fue posible acceder a grafana (http://localhost:3000)
+Luego de hacer lo anterior, pese a los warning ya fue posible acceder a grafana (http://localhost:3000). En lo que respecta a los demas pasos al parecer todo dio.
 
-En el paso 3 es donde me quedo....
+## Configuración de faucet ##
 
-cuando doy 
+Hay problemas cuando se llevo a cabo la ejecución de faucet, tal y como queda evidenciado cuando se intenta ejcutar este:
 
+```bash
 faucet --verbose
-
-sale esto:
-
 ```
+Pues se tiene la siguiente salida:
+
+```bash
 tigarto@fuck-pc:~$ faucet --verbose
 loading app faucet.faucet
 Traceback (most recent call last):
@@ -170,6 +171,21 @@ Traceback (most recent call last):
     __import__(name)
 ImportError: No module named faucet.faucet
 ```
+
+Para poder arreglar el problema, se reinstalo el componente asociado al faucet, pues la verdad no se por que con la instalación llevada a cabo desde los repositorios, pues la cosa no dio. Para ello teniendo en cuenta que la maquina local tiene varias versiones (2.7, 3.5, 3.4) de python se ensayo la instalación para cada una de estas. Al final el unico caso exitoso fue cuando se llevo a cabo la instalación para la versión 3.4: 
+
+```bash
+sudo pip3.4 install faucet 
+```
+
+Ahora si, no hay problemas relacionados y se puede llevar iniciar la ejecución de faucet:
+
+```bash
+sudo systemctl start faucet
+sudo systemctl reload faucet
+```
+
+
 
 Ojo analizar:
 * https://github.com/gwacter-zz/sdn-workshop/blob/master/exercises/04-faucet.md
