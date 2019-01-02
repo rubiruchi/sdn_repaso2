@@ -1,7 +1,13 @@
-Este ensayo se llevo a cabo siguiendo los pasos de: 
-https://docs.faucet.nz/en/latest/tutorials/first_time.html
+# Proceso de instalacion
 
-Instlaion:
+El siguiente proceso de instalación se llevo los pasos descritos en: 
+https://docs.faucet.nz/en/latest/tutorials/first_time.html. Para el caso se tratara de ir documentando el procedimiento de la manera mas fiel posible y en lo posible hacer observaciones en donde se tuvieron problemas recalcando las soluciones o intentos que se hicieron al respecto.
+
+## Instalacion de Faucet ##
+
+Siguiendo lo descrito en la siguiente [URL](https://docs.faucet.nz/en/latest/tutorials/first_time.html#installing-faucet-for-the-first-time) se llevaron a cabo los siguientes pasos:
+
+1. Se agrego el repositorio oficial en el sistema
 
 ```bash
 sudo apt-get install curl gnupg apt-transport-https lsb-release
@@ -9,11 +15,46 @@ echo "deb https://packagecloud.io/faucetsdn/faucet/$(lsb_release -si | awk '{pri
 curl -L https://packagecloud.io/faucetsdn/faucet/gpgkey | sudo apt-key add -
 sudo apt-get update
 ```
+
+2. Se llevo a cabo la instalacion de todos los paquetes:
+
 ```bash
 sudo apt-get install faucet-all-in-one
 ```
 
-OK..
+**Observaciones**: Proceso sin novedad. Todo dio sin problemas.
+
+
+## Configuración de prometheus ##
+
+En la pagina se muestra el archivo de configuración de prometheus **prometheus.yml** asi:
+
+```yaml
+# my global config
+global:
+  scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  # scrape_timeout is set to the global default (10s).
+
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+rule_files:
+  - "faucet.rules.yml"
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+  - job_name: 'faucet'
+    static_configs:
+      - targets: ['localhost:9302']
+  - job_name: 'gauge'
+    static_configs:
+      - targets: ['localhost:9303']
+```
+
 
 La parte de grafana jodio:
 
