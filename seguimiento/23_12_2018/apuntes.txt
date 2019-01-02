@@ -1,0 +1,123 @@
+pip show faucet
+
+Name: faucet
+Version: 1.7.7
+Summary: Faucet is an OpenFlow controller that implements a layer 2 and layer 3 switch.
+Home-page: http://faucet.nz
+Author: Faucet development team
+Author-email: faucet-dev@list.waikato.ac.nz
+License: Apache-2
+Location: /usr/local/lib/python2.7/dist-packages
+Requires: datadiff, influxdb, ipaddress, msgpack, msgpack-python, networkx, pbr, prometheus-client, pyyaml, ryu
+
+
+pip show -f faucet
+Name: faucet
+Version: 1.7.7
+Summary: Faucet is an OpenFlow controller that implements a layer 2 and layer 3 switch.
+Home-page: http://faucet.nz
+Author: Faucet development team
+Author-email: faucet-dev@list.waikato.ac.nz
+License: Apache-2
+Location: /usr/local/lib/python2.7/dist-packages
+Requires: datadiff, influxdb, ipaddress, msgpack, msgpack-python, networkx, pbr, prometheus-client, pyyaml, ryu
+Required-by: 
+Files:
+  ../../../bin/check_faucet_config
+  ../../../bin/faucet
+  ../../../bin/fctl
+  ../../../bin/gauge
+  ../../../etc/faucet/acls.yaml
+  ../../../etc/faucet/aruba_pipeline.json
+  ../../../etc/faucet/faucet.yaml
+  ../../../etc/faucet/gauge.yaml
+  ../../../etc/faucet/ofproto_to_ryu.json
+
+...
+
+  faucet/valves_manager.py
+  faucet/valves_manager.pyc
+  faucet/vlan.py
+  faucet/vlan.pyc
+  faucet/watcher.py
+  faucet/watcher.pyc
+  faucet/watcher_conf.py
+  faucet/watcher_conf.pyc
+
+
+tigarto@fuck-pc:~$ which faucet
+/usr/local/bin/faucet
+tigarto@fuck-pc:~$ which ryu-manager 
+/usr/local/bin/ryu-manager
+
+
+https://costiser.ro
+
+https://costiser.ro/2017/03/07/sdn-lesson-2-introducing-faucet-as-an-openflow-controller/#.XCHP7nXwY8o
+
+
+**********************************************************************************************************
+
+
+vlans:
+    office:
+        vid: 100
+        description: "office network"
+
+dps:
+    sw1:
+        dp_id: 0x1
+        hardware: "Open vSwitch"
+        interfaces:
+            1:
+                name: "host1"
+                description: "host1 network namespace"
+                native_vlan: office
+            2:
+                name: "host2"
+                description: "host2 network namespace"
+                native_vlan: office
+
+sudo systemctl reload faucet
+
+ NETNS=$1
+    IP=$2
+    sudo ip netns add ${NETNS}
+    sudo ip link add dev veth-${NETNS} type veth peer name veth0 netns $NETNS
+    sudo ip link set dev veth-${NETNS} up
+    sudo ip netns exec $NETNS ip link set dev veth0 up
+    sudo ip netns exec $NETNS ip addr add dev veth0 $IP
+    sudo ip netns exec $NETNS ip link set dev lo up
+
+
+ NETNS=$1
+    shift
+    sudo ip netns exec $NETNS $@
+
+
+sudo ovs-vsctl add-br ovs-br1
+ovs-vsctl set bridge ovs-br1 fail mode=secure
+ifconfig ovs-br1 173.16.1.1 netmask 255.255.255.0 up
+ovs-vsctl set bridge ovs-br1 fail protocol=OpenFlow13 
+ovs-vsctl set controller ovs-br1 tcp:127.0.0.1:6633
+ 
+ovs-ofctl show -O OpenFlow13 ovs-br1
+
+docker run -it -rm --name box1 --network=none busybox /bin/sh 
+docker run -it -rm --name box2 --network=none busybox /bin/sh
+
+ovs-docker add-port ovs-br1 eth0 box1 --ipaddress=173.16.1.2/24
+ovs-docker add-port ovs-br1 eth0 box1 --ipaddress=173.16.1.3/24
+
+
+Lo anterior continuara...
+
+Para ver puertos abiertos:
+
+sudo netstat -plnt
+
+Otro ejercicio... https://docs.faucet.nz/en/latest/tutorials/acls.html
+
+
+
+

@@ -1,0 +1,106 @@
+
+De instalaciones previas para si se tiene en ejecucion:
+
+Toco ver: https://github.com/moby/moby/issues/25981
+
+sudo systemctl stop docker
+sudo rm -rf /var/lib/docker/network/files
+sudo systemctl start docker
+
+Inicialmente para tener una idea del manejo vamos a seguir el siguiente tutorial: https://inside-openflow.com/2016/08/23/faucet-virtual-infrastructure/
+
+
+
+
+
+Pendientes:
+https://inside-openflow.com/2016/08/05/ryu-api-reimagining-simple-switch/
+https://inside-openflow.com/2016/12/14/ip-reputation-mitigation-api/
+
+
+Entorno virtual:
+
+# Install VirtualEnv (venv)
+sudo apt install python-virtualenv
+
+# Go to our workspace and setup the local venv
+cd ~/ofworkspace
+virtualenv venv
+
+# Activate the venv
+. ./venv/bin/activate
+
+--> Ver imagenes:
+
+https://docs.faucet.nz/en/latest/installation.html#faucet-pip-install
+
+Seguir con los nuevos pasos de: https://docs.faucet.nz/en/latest/installation.html#faucet-pip-install
+
+
+pip3 install git+https://github.com/faucetsdn/faucet.git
+
+
+*** Corriendo faucet manualmente: https://docs.faucet.nz/en/latest/installation.html#faucet-pip-install
+
+faucet --verbose
+gauge --verbose
+
+
+faucet --help
+
+
+Luego:
+
+
+
+mkdir -p venv/etc/faucet/
+mkdir -p venv/var/log/faucet/
+
+
+create a very simple Faucet configuration.
+
+sure Faucet is installed properly (ryu-manager venv/lib/python2.7/site-packages/ryu_faucet/org/onfsdn/faucet/faucet.py)
+
+faucet --verbose
+
+
+sudo mn --custom datacenterConfigurable.py --topo dcconfig --mac --controller remote
+
+archivo mininet se encontror en: https://github.com/carlosaramiro/Mininet/blob/master/custom/datacenterConfigurable.py
+
+Descargando la topologia:
+
+
+(venv) tigarto@fuck-pc:~/ofworkspace$ mkdir mininet-topologies
+(venv) tigarto@fuck-pc:~/ofworkspace$ cd mininet-topologies/
+(venv) tigarto@fuck-pc:~/ofworkspace/mininet-topologies$ wget https://raw.githubusercontent.com/carlosaramiro/Mininet/master/custom/datacenterConfigurable.py
+
+
+Arrancando el controlador
+faucet --verbose
+
+  CONSUMES EventFaucetAdvertise
+(29483) wsgi starting up on http://0.0.0.0:9302
+EVENT Faucet->Faucet EventFaucetMetricUpdate
+EVENT Faucet->Faucet EventFaucetFastStateExpire
+
+
+datacenter-4x4-faucet.yaml
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------------
+
+
+cd ~/ofworkspace
+. ./venv/bin/activate
+faucet --verbose
+
+***
+cd mininet-topologies/
+sudo mn --custom datacenterConfigurable.py --topo dcconfig --mac --controller remote
+
+
+
+
