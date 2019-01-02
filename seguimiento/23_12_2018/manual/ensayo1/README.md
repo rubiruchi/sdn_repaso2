@@ -27,7 +27,7 @@ sudo apt-get install faucet-all-in-one
 
 ## Configuración de prometheus ##
 
-En la pagina se muestra el archivo de configuración de prometheus **prometheus.yml** asi:
+En la pagina se muestra el archivo de configuración (el cual se encuentra en: **/etc/faucet/prometheus/**) de prometheus **prometheus.yml** asi:
 
 ```yaml
 # my global config
@@ -66,10 +66,10 @@ lo        Link encap:Local Loopback
           ...
 
 wlp2s0    Link encap:Ethernet  ...
-          inet addr:192.168.1.6 ... 
+          inet addr:192.168.1.3 ... 
           ...
 ```
-Según lo anterior lo que se hizo fue cambiar la dirección **localhost** por la dirección IP de **wlp2s0** la cual es **192.168.1.6**. De este modo el archivo quddo asi:
+Según lo anterior lo que se hizo fue cambiar la dirección **localhost** por la dirección IP de **wlp2s0** la cual es **192.168.1.3**. De este modo el archivo quddo asi:
 
 ```yaml
 # my global config
@@ -88,13 +88,13 @@ scrape_configs:
   # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
   - job_name: 'prometheus'
     static_configs:
-      - targets: ['192.168.1.6:9090']
+      - targets: ['192.168.1.3:9090']
   - job_name: 'faucet'
     static_configs:
-      - targets: ['192.168.1.6:9302']
+      - targets: ['192.168.1.3:9302']
   - job_name: 'gauge'
     static_configs:
-      - targets: ['192.168.1.6:9303']
+      - targets: ['192.168.1.3:9303']
 ```
 Los pasos para hacer que prometheus use el archivo de configuracion asociado a faucet se llevaron a cabo sin novedad. Luego, se procedió a reiniciar prometheus:
 
