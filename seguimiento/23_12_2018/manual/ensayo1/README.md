@@ -146,6 +146,17 @@ Luego de hacer lo anterior, pese a los warning ya fue posible acceder a grafana 
 
 ## Configuración de faucet ##
 
+Inicialmente se codifica el archivo de configuracion de faucet ([faucet.yaml](faucet.yaml)), el cual, para el caso se encontrará en /etc/faucet/.
+
+Luego se procede a verificar la configuración:
+
+```bash
+check_faucet_config /etc/faucet/faucet.yaml
+```
+Si todo esta bien la salida será un JSON object con la estructura de configuración completa tal y como se muestra en el siguiente [enlace](salida.json)
+
+
+
 Hay problemas cuando se llevo a cabo la ejecución de faucet, tal y como queda evidenciado cuando se intenta ejcutar este:
 
 ```bash
