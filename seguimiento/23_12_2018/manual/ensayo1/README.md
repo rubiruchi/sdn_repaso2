@@ -101,10 +101,11 @@ Los pasos para hacer que prometheus use el archivo de configuracion asociado a f
 ```bash
 tigarto@fuck-pc:~$ sudo systemctl restart prometheus
 ```
-El resultado arrojo lo esperado.
+**Conclusiones**:
+* Para que prometheus (quede configurado por lo menos para) fue necesario editar el archivo de configuración **prometheus.yaml** pues sino aparecerá un error similar al descrito en el siguiente link: https://github.com/prometheus/prometheus/issues/2008. Tambien el siguiente enlace: https://github.com/prometheus/node_exporter/issues/636 muestra este problema.
+* Despues de las modificaciones se sospecha que ya prometheus esta listo.
 
-Steps to make prometheus use the configuration file shipped with faucet:
-
+## Configuración de grafana ##
 
 La parte de grafana jodio:
 
