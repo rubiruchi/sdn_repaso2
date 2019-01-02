@@ -286,6 +286,52 @@ Jan 02 16:57:07 gauge  INFO     Reloading configuration
 Jan 02 16:57:07 gauge  INFO     config complete
 ```
 
+## Conexión de los datapath ##
+
+Para la comprensión de conceptos sumamente importantes en esta sección se recomienda revisar el siguiente [enlace](http://mobiquo.gsyc.es/lab-sdn/materialesPrevios/sdn.pdf).
+
+Asumiendo que el ovs ya se encuentra instalado inicialmente se agregan los network namespaces para simular los host:
+
+```bash
+create_ns () {
+    NETNS=$1
+    IP=$2
+    sudo ip netns add ${NETNS}
+    sudo ip link add dev veth-${NETNS} type veth peer name veth0 netns $NETNS
+    sudo ip link set dev veth-${NETNS} up
+    sudo ip netns exec $NETNS ip link set dev veth0 up
+    sudo ip netns exec $NETNS ip addr add dev veth0 $IP
+    sudo ip netns exec $NETNS ip link set dev lo up
+}
+
+as_ns () {
+    NETNS=$1
+    shift
+    sudo ip netns exec $NETNS $@
+}
+```
+
+Se crean los host1 y host2 y se les asigna alguna IP:
+
+```bash
+create_ns host1 192.168.0.1/24
+create_ns host2 192.168.0.2/24
+```
+
+Luego se procede a configurar ovs:
+
+```bash
+sudo ovs-vsctl add-br br0 \
+-- set bridge br0 other-config:datapath-id=0000000000000001 \
+-- set bridge br0 other-config:disable-in-band=true \
+-- set bridge br0 fail_mode=secure \
+-- add-port br0 veth-host1 -- set interface veth-host1 ofport_request=1 \
+-- add-port br0 veth-host2 -- set interface veth-host2 ofport_request=2 \
+-- set-controller br0 tcp:127.0.0.1:6653 tcp:127.0.0.1:6654
+```
+
+
+
 
 
 
@@ -295,6 +341,7 @@ Ojo analizar:
 * https://github.com/MrMCandR/COMP514-Assignment-One
 * https://github.com/onfsdn/faucet_db/tree/master/faucet
 * http://www.openvswitch.org/support/ovscon2016/8/1450-mysore.pdf
+* http://mobiquo.gsyc.es/lab-sdn/
 
 Se instalo lo siguiente:
 
