@@ -254,6 +254,41 @@ Jan 02 16:41:11 faucet.valve INFO     DPID 1 (0x1) sw1 table ID 3 table config m
 * Fue necesario reinstalar faucet con pip.
 * La opcion con systemctl no arranca el faucet como esperariamos, esto se puede ver en el log.
 
+## Configuración de gauge ##
+
+De manera similar al faucet existe un archivo de configuración en /etc/faucet/gauge.yaml el cual se puede apreciar en el siguiente [enlace](gauge.yaml). 
+
+Al iniciar el gauge :
+
+```bash
+sudo gauge --verbose
+...
+BRICK Gauge
+  CONSUMES EventDP
+  CONSUMES EventOFPFlowStatsReply
+  CONSUMES EventOFPPortStatus
+  CONSUMES EventReconfigure
+  CONSUMES EventDPReconnected
+  CONSUMES EventOFPPortStatsReply
+(12155) wsgi starting up on http://0.0.0.0:9303
+
+```
+
+Asi mismo en el log:
+
+```bash
+cat /var/log/faucet/gauge.log
+...
+Jan 01 17:38:22 gauge  INFO     DPID 1 (0x1) down
+Jan 01 17:38:22 gauge.port_stats INFO     stopping
+Jan 01 17:38:22 gauge.flow_table INFO     stopping
+Jan 02 16:57:07 gauge  INFO     Reloading configuration
+Jan 02 16:57:07 gauge  INFO     config complete
+```
+
+
+
+
 Ojo analizar:
 * https://github.com/gwacter-zz/sdn-workshop/blob/master/exercises/04-faucet.md
 * http://installfights.blogspot.com/2016/10/mininet-ryu-faucet-gauge-influxdb.html
