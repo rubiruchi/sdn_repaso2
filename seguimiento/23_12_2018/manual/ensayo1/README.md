@@ -101,6 +101,9 @@ Los pasos para hacer que prometheus use el archivo de configuracion asociado a f
 ```bash
 tigarto@fuck-pc:~$ sudo systemctl restart prometheus
 ```
+
+Finalmente, ya es posible acceder a la interfaz web de prometheus: http://localhost:8080
+
 **Conclusiones**:
 * Para que prometheus (quede configurado por lo menos para) fue necesario editar el archivo de configuración **prometheus.yaml** pues sino aparecerá un error similar al descrito en el siguiente link: https://github.com/prometheus/prometheus/issues/2008. Tambien el siguiente enlace: https://github.com/prometheus/node_exporter/issues/636 muestra este problema.
 * Despues de las modificaciones se sospecha que ya prometheus esta listo.
@@ -109,14 +112,28 @@ tigarto@fuck-pc:~$ sudo systemctl restart prometheus
 
 La parte de grafana jodio:
 
+Se llevo a cabo el paso 1 en el cual lo que se hace iniciar grafana  en boot y entonces inicializarlo manualmente la primera vez. Para ello se ejecutaron los comandos:
+
 ```bash
-tigarto@fuck-pc:~$ sudo systemctl restart prometheus
+sudo systemctl daemon-reload
+sudo systemctl enable grafana-server
+sudo systemctl start grafana-server
+```
+La salida de estos se muestra a continuación:
+
+```bash
 tigarto@fuck-pc:~$ sudo systemctl daemon-reload
 tigarto@fuck-pc:~$ sudo systemctl enable grafana-server
 Synchronizing state of grafana-server.service with SysV init with /lib/systemd/systemd-sysv-install...
 Executing /lib/systemd/systemd-sysv-install enable grafana-server
 insserv: warning: script 'sonata' missing LSB tags and overrides
 insserv: warning: script 'sonata' missing LSB tags and overrides
+```
+El problema despues de esto fue que no se podia acceder a grafana desde el browser (http://localhost:3000)
+
+Para el caso la solución fue parando e inicializando el grafana:
+
+```bash
 tigarto@fuck-pc:~$ sudo systemctl stop grafana-server
 tigarto@fuck-pc:~$ sudo systemctl start grafana-server
 tigarto@fuck-pc:~$ sudo systemctl enable grafana-server
@@ -124,9 +141,8 @@ Synchronizing state of grafana-server.service with SysV init with /lib/systemd/s
 Executing /lib/systemd/systemd-sysv-install enable grafana-server
 insserv: warning: script 'sonata' missing LSB tags and overrides
 insserv: warning: script 'sonata' missing LSB tags and overrides
-
 ```
-La solucion fue con una parada
+Luego de hacer lo anterior, pese a los warning ya fue posible acceder a grafana (http://localhost:3000)
 
 En el paso 3 es donde me quedo....
 
