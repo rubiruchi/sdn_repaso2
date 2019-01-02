@@ -155,9 +155,30 @@ check_faucet_config /etc/faucet/faucet.yaml
 ```
 Si todo esta bien la salida será un JSON object con la estructura de configuración completa tal y como se muestra en el siguiente [enlace](salida.json)
 
+Luego se procede a reiniciar el faucet:
+
+```bash
+sudo systemctl start faucet
+sudo systemctl reload faucet
+```
+
+Como no estaba inicializado toco inicializarlo, luego se chequean los logs (/var/log/faucet/faucet.log), para el caso la salida dio algo como:
 
 
-Hay problemas cuando se llevo a cabo la ejecución de faucet, tal y como queda evidenciado cuando se intenta ejcutar este:
+```bash
+cat /var/log/faucet/faucet.log
+...
+Dec 31 14:13:27 faucet.valve INFO     DPID 1 (0x1) sw1 Configuring VLAN office vid:100 untagged: Port 1,Port 2
+Jan 01 17:38:22 faucet.valve WARNING  DPID 1 (0x1) sw1 datapath down
+```
+
+Son aproximadamente las 16:40 del 01 de enero de 2019, asi que deben hacer problemas. Por ello se intento entonces hacer la operación anterior con el comando:
+
+```bash
+faucet --verbose
+```
+
+Sin embargo, hay problemas cuando se llevo a cabo la ejecución de faucet, tal y como queda evidenciado cuando se intenta ejcutar este:
 
 ```bash
 faucet --verbose
@@ -188,15 +209,50 @@ Para poder arreglar el problema, se reinstalo el componente asociado al faucet, 
 ```bash
 sudo pip3.4 install faucet 
 ```
-
-Ahora si, no hay problemas relacionados y se puede llevar iniciar la ejecución de faucet:
+Ahora llevando la ejecucion del faucet:
 
 ```bash
-sudo systemctl start faucet
-sudo systemctl reload faucet
+sudo faucet --verbose
+loading app faucet.faucet
+loading app ryu.controller.ofp_handler
+instantiating app None of DPSet
+creating context dpset
+creating context faucet_experimental_api
+instantiating app ryu.controller.ofp_handler of OFPHandler
+instantiating app faucet.faucet of Faucet
+BRICK ofp_event
+  PROVIDES EventOFPErrorMsg TO {'Faucet': {'main'}}
+  PROVIDES EventOFPDescStatsReply TO {'Faucet': {'main'}}
+  PROVIDES EventOFPPacketIn TO {'Faucet': {'main'}}
+  PROVIDES EventOFPStateChange TO {'dpset': {'dead', 'main'}}
+  PROVIDES EventOFPPortStatus TO {'dpset': {'main'}, 'Faucet': {'main'}}
+  PROVIDES EventOFPSwitchFeatures TO {'dpset': {'config'}, 'Faucet': {'config'}}
+  PROVIDES EventOFPFlowRemoved TO {'Faucet': {'main'}}
+  CONSUMES EventOFPEchoRequest
+  CONSUMES EventOFPHello
+  CONSUMES EventOFPPortDescStatsReply
+  CONSUMES EventOFPEchoReply
+...
 ```
 
+Y analizando el log:
 
+```bash
+cat /var/log/faucet/faucet.log
+...
+Jan 01 17:38:22 faucet.valve WARNING  DPID 1 (0x1) sw1 datapath down
+Jan 02 16:41:11 faucet INFO     Reloading configuration
+Jan 02 16:41:11 faucet INFO     configuration /etc/faucet/faucet.yaml changed, analyzing differences
+Jan 02 16:41:11 faucet INFO     Add new datapath DPID 1 (0x1)
+Jan 02 16:41:11 faucet.valve INFO     DPID 1 (0x1) sw1 table ID 0 table config match_types: (('eth_dst', True), ('eth_type', False), ('in_port', False), ('vlan_vid', False)) name: vlan next_tables: ['eth_src'] output: True set_fields: ('vlan_vid',) size: 32 vlan_port_scale: 1.5
+Jan 02 16:41:11 faucet.valve INFO     DPID 1 (0x1) sw1 table ID 1 table config match_types: (('eth_dst', True), ('eth_src', False), ('eth_type', False), ('in_port', False), ('vlan_vid', False)) miss_goto: eth_dst name: eth_src next_tables: ['eth_dst', 'flood'] output: True set_fields: ('vlan_vid', 'eth_dst') size: 32 table_id: 1 vlan_port_scale: 4.1
+Jan 02 16:41:11 faucet.valve INFO     DPID 1 (0x1) sw1 table ID 2 table config exact_match: True match_types: (('eth_dst', False), ('vlan_vid', False)) miss_goto: flood name: eth_dst output: True size: 32 table_id: 2 vlan_port_scale: 4.1
+Jan 02 16:41:11 faucet.valve INFO     DPID 1 (0x1) sw1 table ID 3 table config match_types: (('eth_dst', True), ('in_port', False), ('vlan_vid', False)) name: flood output: True size: 32 table_id: 3 vlan_port_scale: 2.1
+```
+
+**Conclusiones**:
+* Fue necesario reinstalar faucet con pip.
+* La opcion con systemctl no arranca el faucet como esperariamos, esto se puede ver en el log.
 
 Ojo analizar:
 * https://github.com/gwacter-zz/sdn-workshop/blob/master/exercises/04-faucet.md
