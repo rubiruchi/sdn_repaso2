@@ -101,6 +101,24 @@ faucet --verbose
 cd mininet-topologies/
 sudo mn --custom datacenterConfigurable.py --topo dcconfig --mac --controller remote
 
+******************************************************************************************************************
+
+Enero 2:
+http://mobiquo.gsyc.es/lab-sdn/enunciado.pdf
+file:///home/tigarto/Downloads/preprints201806.0138.v1.pdf
+http://mobiquo.gsyc.es/lab-sdn/
+https://docs.google.com/presentation/d/e/2PACX-1vTmDLHoq-0GQauvs3cPKF-ZE1bhna8Y963TtthR_pq94DoOxrJimx-jYYYsE1SbsLjVwA0dBxl5DS96/pub?start=false&loop=false&delayms=10000&slide=id.g4864f8b9b5_1_351
+
+http://mobiquo.gsyc.es/lab-sdn/materialesPrevios/sdn.pdf
+http://mobiquo.gsyc.es/lab-sdn/materialesPrevios/practica-mininet.pdf
+
+https://support.rackspace.com/how-to/checking-listening-ports-with-netstat/
+
+
+sudo netstat -plnt
+
+
+
 
 
 
