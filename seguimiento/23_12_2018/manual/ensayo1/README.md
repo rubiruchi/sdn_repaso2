@@ -330,8 +330,17 @@ sudo ovs-vsctl add-br br0 \
 -- set-controller br0 tcp:127.0.0.1:6653 tcp:127.0.0.1:6654
 ```
 
+Posteriormente se procedio a generar trafico entre el host1 y el host2:
 
+```bash
+as_ns host1 ping 192.168.0.2
+```
 
+En la siguiente figura se muestra el resultado:
+
+![running_controller](test_image02.png)
+
+Aqui se corre el faucet en la terminal superior izquierda, el gauge en la terminal inferior izquierda. Ademas se instanacian los host y el openvswitch, asi como se ejecuta el ping entre dichos host en la terminal superior derecha. Finalmente se muestran los puertos abiertos en la terminal inferior derecha empleando el comando ```bash sudo netstat -plnt``` (para mas informacion ver el siguiente [enlace](https://support.rackspace.com/how-to/checking-listening-ports-with-netstat/))
 
 
 
