@@ -27,7 +27,7 @@ sudo apt-get install faucet-all-in-one
 
 ## Configuración de prometheus ##
 
-En la pagina se muestra el archivo de configuración de prometheus **prometheus.yml** asi:
+En la pagina se muestra el archivo de configuración (el cual se encuentra en: **/etc/faucet/prometheus/**) de prometheus **prometheus.yml** asi:
 
 ```yaml
 # my global config
@@ -66,10 +66,10 @@ lo        Link encap:Local Loopback
           ...
 
 wlp2s0    Link encap:Ethernet  ...
-          inet addr:192.168.1.6 ... 
+          inet addr:192.168.1.3 ... 
           ...
 ```
-Según lo anterior lo que se hizo fue cambiar la dirección **localhost** por la dirección IP de **wlp2s0** la cual es **192.168.1.6**. De este modo el archivo quddo asi:
+Según lo anterior lo que se hizo fue cambiar la dirección **localhost** por la dirección IP de **wlp2s0** la cual es **192.168.1.3**. De este modo el archivo quddo asi:
 
 ```yaml
 # my global config
@@ -88,13 +88,13 @@ scrape_configs:
   # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
   - job_name: 'prometheus'
     static_configs:
-      - targets: ['192.168.1.6:9090']
+      - targets: ['192.168.1.3:9090']
   - job_name: 'faucet'
     static_configs:
-      - targets: ['192.168.1.6:9302']
+      - targets: ['192.168.1.3:9302']
   - job_name: 'gauge'
     static_configs:
-      - targets: ['192.168.1.6:9303']
+      - targets: ['192.168.1.3:9303']
 ```
 Los pasos para hacer que prometheus use el archivo de configuracion asociado a faucet se llevaron a cabo sin novedad. Luego, se procedió a reiniciar prometheus:
 
@@ -146,7 +146,39 @@ Luego de hacer lo anterior, pese a los warning ya fue posible acceder a grafana 
 
 ## Configuración de faucet ##
 
-Hay problemas cuando se llevo a cabo la ejecución de faucet, tal y como queda evidenciado cuando se intenta ejcutar este:
+Inicialmente se codifica el archivo de configuracion de faucet ([faucet.yaml](faucet.yaml)), el cual, para el caso se encontrará en /etc/faucet/.
+
+Luego se procede a verificar la configuración:
+
+```bash
+check_faucet_config /etc/faucet/faucet.yaml
+```
+Si todo esta bien la salida será un JSON object con la estructura de configuración completa tal y como se muestra en el siguiente [enlace](salida.json)
+
+Luego se procede a reiniciar el faucet:
+
+```bash
+sudo systemctl start faucet
+sudo systemctl reload faucet
+```
+
+Como no estaba inicializado toco inicializarlo, luego se chequean los logs (/var/log/faucet/faucet.log), para el caso la salida dio algo como:
+
+
+```bash
+cat /var/log/faucet/faucet.log
+...
+Dec 31 14:13:27 faucet.valve INFO     DPID 1 (0x1) sw1 Configuring VLAN office vid:100 untagged: Port 1,Port 2
+Jan 01 17:38:22 faucet.valve WARNING  DPID 1 (0x1) sw1 datapath down
+```
+
+Son aproximadamente las 16:40 del 01 de enero de 2019, asi que deben hacer problemas. Por ello se intento entonces hacer la operación anterior con el comando:
+
+```bash
+faucet --verbose
+```
+
+Sin embargo, hay problemas cuando se llevo a cabo la ejecución de faucet, tal y como queda evidenciado cuando se intenta ejcutar este:
 
 ```bash
 faucet --verbose
@@ -177,13 +209,129 @@ Para poder arreglar el problema, se reinstalo el componente asociado al faucet, 
 ```bash
 sudo pip3.4 install faucet 
 ```
-
-Ahora si, no hay problemas relacionados y se puede llevar iniciar la ejecución de faucet:
+Ahora llevando la ejecucion del faucet:
 
 ```bash
-sudo systemctl start faucet
-sudo systemctl reload faucet
+sudo faucet --verbose
+loading app faucet.faucet
+loading app ryu.controller.ofp_handler
+instantiating app None of DPSet
+creating context dpset
+creating context faucet_experimental_api
+instantiating app ryu.controller.ofp_handler of OFPHandler
+instantiating app faucet.faucet of Faucet
+BRICK ofp_event
+  PROVIDES EventOFPErrorMsg TO {'Faucet': {'main'}}
+  PROVIDES EventOFPDescStatsReply TO {'Faucet': {'main'}}
+  PROVIDES EventOFPPacketIn TO {'Faucet': {'main'}}
+  PROVIDES EventOFPStateChange TO {'dpset': {'dead', 'main'}}
+  PROVIDES EventOFPPortStatus TO {'dpset': {'main'}, 'Faucet': {'main'}}
+  PROVIDES EventOFPSwitchFeatures TO {'dpset': {'config'}, 'Faucet': {'config'}}
+  PROVIDES EventOFPFlowRemoved TO {'Faucet': {'main'}}
+  CONSUMES EventOFPEchoRequest
+  CONSUMES EventOFPHello
+  CONSUMES EventOFPPortDescStatsReply
+  CONSUMES EventOFPEchoReply
+...
 ```
+
+Y analizando el log:
+
+```bash
+cat /var/log/faucet/faucet.log
+...
+Jan 01 17:38:22 faucet.valve WARNING  DPID 1 (0x1) sw1 datapath down
+Jan 02 16:41:11 faucet INFO     Reloading configuration
+Jan 02 16:41:11 faucet INFO     configuration /etc/faucet/faucet.yaml changed, analyzing differences
+Jan 02 16:41:11 faucet INFO     Add new datapath DPID 1 (0x1)
+Jan 02 16:41:11 faucet.valve INFO     DPID 1 (0x1) sw1 table ID 0 table config match_types: (('eth_dst', True), ('eth_type', False), ('in_port', False), ('vlan_vid', False)) name: vlan next_tables: ['eth_src'] output: True set_fields: ('vlan_vid',) size: 32 vlan_port_scale: 1.5
+Jan 02 16:41:11 faucet.valve INFO     DPID 1 (0x1) sw1 table ID 1 table config match_types: (('eth_dst', True), ('eth_src', False), ('eth_type', False), ('in_port', False), ('vlan_vid', False)) miss_goto: eth_dst name: eth_src next_tables: ['eth_dst', 'flood'] output: True set_fields: ('vlan_vid', 'eth_dst') size: 32 table_id: 1 vlan_port_scale: 4.1
+Jan 02 16:41:11 faucet.valve INFO     DPID 1 (0x1) sw1 table ID 2 table config exact_match: True match_types: (('eth_dst', False), ('vlan_vid', False)) miss_goto: flood name: eth_dst output: True size: 32 table_id: 2 vlan_port_scale: 4.1
+Jan 02 16:41:11 faucet.valve INFO     DPID 1 (0x1) sw1 table ID 3 table config match_types: (('eth_dst', True), ('in_port', False), ('vlan_vid', False)) name: flood output: True size: 32 table_id: 3 vlan_port_scale: 2.1
+```
+
+**Conclusiones**:
+* Fue necesario reinstalar faucet con pip.
+* La opcion con systemctl no arranca el faucet como esperariamos, esto se puede ver en el log.
+
+## Configuración de gauge ##
+
+De manera similar al faucet existe un archivo de configuración en /etc/faucet/gauge.yaml el cual se puede apreciar en el siguiente [enlace](gauge.yaml). 
+
+Al iniciar el gauge :
+
+```bash
+sudo gauge --verbose
+...
+BRICK Gauge
+  CONSUMES EventDP
+  CONSUMES EventOFPFlowStatsReply
+  CONSUMES EventOFPPortStatus
+  CONSUMES EventReconfigure
+  CONSUMES EventDPReconnected
+  CONSUMES EventOFPPortStatsReply
+(12155) wsgi starting up on http://0.0.0.0:9303
+
+```
+
+Asi mismo en el log:
+
+```bash
+cat /var/log/faucet/gauge.log
+...
+Jan 01 17:38:22 gauge  INFO     DPID 1 (0x1) down
+Jan 01 17:38:22 gauge.port_stats INFO     stopping
+Jan 01 17:38:22 gauge.flow_table INFO     stopping
+Jan 02 16:57:07 gauge  INFO     Reloading configuration
+Jan 02 16:57:07 gauge  INFO     config complete
+```
+
+## Conexión de los datapath ##
+
+Para la comprensión de conceptos sumamente importantes en esta sección se recomienda revisar el siguiente [enlace](http://mobiquo.gsyc.es/lab-sdn/materialesPrevios/sdn.pdf).
+
+Asumiendo que el ovs ya se encuentra instalado inicialmente se agregan los network namespaces para simular los host:
+
+```bash
+create_ns () {
+    NETNS=$1
+    IP=$2
+    sudo ip netns add ${NETNS}
+    sudo ip link add dev veth-${NETNS} type veth peer name veth0 netns $NETNS
+    sudo ip link set dev veth-${NETNS} up
+    sudo ip netns exec $NETNS ip link set dev veth0 up
+    sudo ip netns exec $NETNS ip addr add dev veth0 $IP
+    sudo ip netns exec $NETNS ip link set dev lo up
+}
+
+as_ns () {
+    NETNS=$1
+    shift
+    sudo ip netns exec $NETNS $@
+}
+```
+
+Se crean los host1 y host2 y se les asigna alguna IP:
+
+```bash
+create_ns host1 192.168.0.1/24
+create_ns host2 192.168.0.2/24
+```
+
+Luego se procede a configurar ovs:
+
+```bash
+sudo ovs-vsctl add-br br0 \
+-- set bridge br0 other-config:datapath-id=0000000000000001 \
+-- set bridge br0 other-config:disable-in-band=true \
+-- set bridge br0 fail_mode=secure \
+-- add-port br0 veth-host1 -- set interface veth-host1 ofport_request=1 \
+-- add-port br0 veth-host2 -- set interface veth-host2 ofport_request=2 \
+-- set-controller br0 tcp:127.0.0.1:6653 tcp:127.0.0.1:6654
+```
+
+
+
 
 
 
@@ -193,6 +341,7 @@ Ojo analizar:
 * https://github.com/MrMCandR/COMP514-Assignment-One
 * https://github.com/onfsdn/faucet_db/tree/master/faucet
 * http://www.openvswitch.org/support/ovscon2016/8/1450-mysore.pdf
+* http://mobiquo.gsyc.es/lab-sdn/
 
 Se instalo lo siguiente:
 
