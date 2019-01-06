@@ -342,6 +342,54 @@ En la siguiente figura se muestra el resultado:
 
 Aqui se corre el faucet en la terminal superior izquierda, el gauge en la terminal inferior izquierda. Ademas se instanacian los host y el openvswitch, asi como se ejecuta el ping entre dichos host en la terminal superior derecha. Finalmente se muestran los puertos abiertos en la terminal inferior derecha empleando el comando ```bash sudo netstat -plnt``` (para mas informacion ver el siguiente [enlace](https://support.rackspace.com/how-to/checking-listening-ports-with-netstat/))
 
+## Mirando resultados ##
+
+Tal y como se muestra en la figura anterior, el comando ```bash as_ns host1 ping 192.168.0.2 ``` genera peticiones ICMP desde el host1 hacia el host2. A continuación se muestra el comportamiento de las diferentes herramientas de monitoreo integradas con **faucet** cuando se lleva a cabo la ejecución de este comando:
+
+### Salidas en consola tanto de faucet como de gauge ###
+
+Las salidas en consola son sumamente utiles para el analisis de logs. A continuacion se muestran las imagenes con las salidas en consola para faucet y gauge respectivamente.
+
+* Salida faucet:
+
+![faucet_log](faucet_log.png)
+
+* Salida Gauge:
+
+![gauge_log](gauge_log.png)
+
+
+### Prometheus ###
+
+El acceso a esta aplicación se hace colocando la URL localhost:9090 en el browser. El resultado de ello se muestra a continuación:
+
+![prometheus1](prometheus_02.png)
+
+Asi mismo tambien se muestra en la siguiente imagen, los targets de los cuales se estan obteniendo las estadisticas:
+
+![prometheus2](prometheus.png)
+
+### Grafana ###
+
+Para acceder a grafana, se emplea la URL localhost:3000. A continuación se muestran las dashboards disponibles:
+
+![grafana1](grafana_dashboards.png)
+
+Como se puede ver estas son:
+* Faucet instrumentation.
+
+![grafana2](grafana_faucet_instrumentation.png)
+
+
+* Faucet inventory
+
+
+![grafana3](grafana_faucet_inventory.png)
+
+
+* Gauge instrumentation.
+
+![grafana4](grafana_gauge_instrumentation.png)
 
 
 Ojo analizar:
