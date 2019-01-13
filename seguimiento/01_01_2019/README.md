@@ -49,6 +49,8 @@ pip3 install git+https://github.com/faucetsdn/faucet.git
 
 ![pip_install](py_charm03.png)
 
+
+
 Una vez el resultado se completa salío algo como lo siguiente:
 
 ![pip_listo](py_charm04.png)
@@ -56,6 +58,73 @@ Una vez el resultado se completa salío algo como lo siguiente:
 3. En los directorios /venv/etc/faucet y /venv/var/faucet, se ubicaran los archivos de configuración y los logs de faucet respectivamante. La siguiente figura muestra esto en el arbol de directorios de faucet. Para el caso se despliega el contenido del archivo de configuración faucet.yml:
 
 ![faucet_config](py_charm05.png)
+
+
+3. Vamos a proceder a experimentar con faucet. Inicialmente abrimos una nueva consola, y activamos el entorno virtual tal y como se muestra en la siguiente figura:
+
+![env_1](venv_01.png)
+
+Los comandos aplicados fueron para el caso:
+
+```bash
+cd ~/ofworkspace
+. ./venv/bin/activate
+```
+
+4. Comprobamos que ya podemos usar faucet, esto se hizo invocando su help:
+
+![env_2](venv_02.png)
+
+
+5. Al correr faucet manualmente se puede verificar que este esta funcionando bien de acuerdo a los resultados que este este arrojando. Para ello se corrio el siguiente comando
+
+```bash
+faucet --verbose
+```
+
+El log para el caso fue el siguiente:
+
+![env_3](venv_04.png)
+
+Para el caso del gauge se procede de manera similar:
+
+```bash
+gauge --verbose
+```
+## Creando una aplicación ## 
+
+**Nota**: Estos archivos fueron obtenidos de: https://inside-openflow.com/2016/08/23/faucet-virtual-infrastructure/
+
+1. Crear la topologia en mininet:
+
+![topologia](py_charm06.png)
+
+2. Editar el archivo de configuración del faucet (/venv/etc/faucet/faucet.yaml) de acuerdo a la topologia:
+
+![faucet.yml](py_charm07.png)
+
+3. Iniciar el faucet:
+
+![run_faucet](pvenv_04_01.png)
+
+4. Iniciar la topologia de mininet. A continuacíón se muestra el resultado (a la izquierda la consola asociada a faucet, a la derecha la consola asociada a mininet)
+
+![test_01](pvenv_05.png)
+
+5. Interactuar con la topologia ejecutando diferentes comandos:
+
+![test_02](pvenv_06.png)
+
+
+
+
+
+
+
+
+
+
+
 
 
 
