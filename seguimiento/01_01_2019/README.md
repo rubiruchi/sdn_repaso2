@@ -53,6 +53,12 @@ Una vez el resultado se completa salío algo como lo siguiente:
 
 ![pip_listo](py_charm04.png)
 
+3. En los directorios /venv/etc/faucet y /venv/var/faucet, se ubicaran los archivos de configuración y los logs de faucet respectivamante. La siguiente figura muestra esto en el arbol de directorios de faucet. Para el caso se despliega el contenido del archivo de configuración faucet.yml:
+
+![faucet_config](py_charm05.png)
+
+
+
 
 
 
