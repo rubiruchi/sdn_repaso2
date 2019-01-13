@@ -16,7 +16,7 @@ En la [pagina seguida](https://inside-openflow.com/2016/08/23/faucet-virtual-inf
 
 1. Instalar el entorno virtual:
 
-```
+```bash
 # Install VirtualEnv (venv)
 sudo apt install python-virtualenv
 
@@ -28,14 +28,30 @@ virtualenv venv
 . ./venv/bin/activate
 ```
 
-En nuestro caso, este procedimiento se llevo a cabo usando pycharm. A continuación se muestra como:
-  1. Se crea un nuevo proyecto en pycharm:
+En nuestro caso, este procedimiento se llevo a cabo usando pycharm, por lo que los pasos anteriores no se ejecutaron. A continuación se muestra como:
+
+**Paso 1**: Se crea un nuevo proyecto y un nuevo entorno virtual en pycharm:
   
-  ![new_project](py_charm01.png)
+![new_project](py_charm01.png)
 
+El resultado del paso anterior es el siguiente:
 
-2. En el directorio en el cual se vaya a trabajar clonar el repositorio del faucet:
+![project](py_charm02.png)
 
+2. En el directorio en el cual se vaya a trabajar instalar faucet tal y como se muestra en el siguiente [enlace](https://docs.faucet.nz/en/latest/installation.html#faucet-pip-install):
+
+```bash
+# Installation via pip
+pip3 install git+https://github.com/faucetsdn/faucet.git
+```
+
+**Paso 2**: La aplicación del comando se muestra en la consola de pycharm:
+
+![pip_install](py_charm03.png)
+
+Una vez el resultado se completa salío algo como lo siguiente:
+
+![pip_listo](py_charm04.png)
 
 
 
