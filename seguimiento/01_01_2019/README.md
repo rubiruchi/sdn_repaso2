@@ -105,15 +105,15 @@ gauge --verbose
 
 3. Iniciar el faucet:
 
-![run_faucet](pvenv_04_01.png)
+![run_faucet](venv_04_01.png)
 
 4. Iniciar la topologia de mininet. A continuacíón se muestra el resultado (a la izquierda la consola asociada a faucet, a la derecha la consola asociada a mininet)
 
-![test_01](pvenv_05.png)
+![test_01](venv_05.png)
 
 5. Interactuar con la topologia ejecutando diferentes comandos:
 
-![test_02](pvenv_06.png)
+![test_02](venv_06.png)
 
 
 
